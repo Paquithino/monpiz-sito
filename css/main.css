@@ -82,7 +82,7 @@ ul { list-style: none; }
   color: var(--ink); text-decoration: none; background: transparent;
   transition: background-color .2s ease, color .2s ease, border-color .2s ease;
 }
-.btn:hover { background: var(--ink); color: var(--paper); }
+.btn:hover { background: var(--ink); color: var(--white); }
 .btn--light { border-color: var(--on-dark); color: var(--on-dark); }
 .btn--light:hover { background: var(--on-dark); color: var(--ink); }
 .btn--ghost { border-color: rgba(255, 253, 248, 0.5); color: var(--on-dark); }
@@ -178,13 +178,31 @@ ul { list-style: none; }
 /* =============================================================================
    1. APERTURA
    ============================================================================= */
-.hero__photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 52% 55%; }
-.hero__text { padding-block: 1.75rem var(--section); }
-.hero__title { display: flex; flex-direction: column; gap: 0.35rem; font: 500 3rem/0.95 var(--display); letter-spacing: -0.02em; color: var(--ink); }
-.hero__title span { font: 600 0.875rem/1.3 var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink); }
-.hero__lead { margin-top: 1rem; max-width: 30em; color: var(--body); }
-.hero__actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; margin-top: 1.5rem; }
-.hero__actions .btn { padding-inline: 0.25rem; letter-spacing: 0.06em; }
+/* La foto riempie tutto lo schermo; sopra, in alto, i collegamenti alle sezioni e il titolo,
+   in basso i pulsanti. Le scarpe stanno nella fascia centrale e restano libere. */
+.hero { position: relative; color: var(--on-dark); background: var(--forest); }
+.hero__photo { display: block; position: relative; }
+.hero__photo img { width: 100%; height: min(100svh, 150vw); min-height: 32rem; object-fit: cover; object-position: 50% 60%; }
+.hero__photo::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(20, 23, 17, 0.72) 0%, rgba(20, 23, 17, 0.45) 22%, rgba(20, 23, 17, 0) 40%),
+    linear-gradient(0deg, rgba(20, 23, 17, 0.7) 0%, rgba(20, 23, 17, 0) 22%); }
+.hero__text {
+  position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between;
+  padding-top: calc(var(--hdr-h) + env(safe-area-inset-top, 0px)); padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+}
+.hero__links {
+  display: flex; justify-content: space-between; gap: 0.25rem;
+  margin: 0 0 1.5rem; padding: 0.25rem 0 0.6rem;
+}
+.hero__links a { flex: none; padding-block: 0.35rem; border-bottom: 1px solid rgba(255, 253, 248, 0.45); font: 600 clamp(0.5625rem, 2.7vw, 0.75rem)/1 var(--sans); letter-spacing: clamp(0.03em, 0.3vw, 0.08em); text-transform: uppercase; white-space: nowrap; color: var(--on-dark); text-decoration: none; }
+.hero .eyebrow { color: var(--olive-light); }
+.hero__title { display: flex; flex-direction: column; gap: 0.35rem; font: 500 3rem/0.95 var(--display); letter-spacing: -0.02em; color: var(--on-dark); }
+.hero__title span { font: 600 0.875rem/1.3 var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--on-dark); }
+.hero__lead { display: none; margin-bottom: 1.25rem; max-width: 30em; color: var(--on-dark-muted); }
+.hero__actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; }
+.hero__actions .btn { padding-inline: 0.25rem; letter-spacing: 0.06em; border-color: var(--on-dark); color: var(--on-dark); background: rgba(20, 23, 17, 0.18); }
+.hero__actions .btn:hover { background: var(--on-dark); color: var(--ink); }
 
 /* =============================================================================
    2. I MODELLI — carosello orizzontale
@@ -348,6 +366,8 @@ ul { list-style: none; }
   transition: transform .2s ease, background-color .2s ease;
 }
 .wa:hover { transform: scale(1.06); background: var(--olive-dark); }
+.at-hero .wa { opacity: 0; transform: scale(0.8); pointer-events: none; }
+.wa { transition: transform .2s ease, background-color .2s ease, opacity .25s ease; }
 .wa svg { width: 1.75rem; height: 1.75rem; fill: currentColor; }
 
 /* ---------- comparsa dolce delle sezioni ---------- */
@@ -370,45 +390,124 @@ ul { list-style: none; }
   .details__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .hero__actions { display: flex; flex-wrap: wrap; }
   .hero__actions .btn { padding-inline: 1.5rem; }
+  .hero__lead { display: block; }
 }
 
 /* =============================================================================
-   COMPUTER (da 1024px) — da rifinire nella seconda fase
+   COMPUTER (da 900px) — stile "a tutto schermo": foto da bordo a bordo,
+   sezioni divise a metà (foto / testo), titoli grandi, nessun vuoto.
    ============================================================================= */
-@media (min-width: 64em) {
-  :root { --hdr-h: 4.5rem; --section: 6rem; }
-  .hdr__logo { width: 7rem; }
-  .h2 { font-size: 2.5rem; }
-  .h2--big { font-size: 3.5rem; }
+.hdr__nav { display: none; }
 
-  .hero__photo img { aspect-ratio: auto; height: min(78vh, 52rem); }
-  .hero__text { display: grid; grid-template-columns: 1fr 1fr; column-gap: 4rem; align-items: end; padding-block: 3rem var(--section); }
-  .hero__title { grid-row: 1 / span 3; font-size: 4.5rem; }
-  .hero__text .eyebrow { grid-column: 1; grid-row: 1; align-self: start; }
-  .hero__title { grid-column: 1; grid-row: 2 / span 2; }
-  .hero__lead, .hero__actions { grid-column: 2; }
+@media (min-width: 56em) {
+  /* tutte le misure in rem crescono con la larghezza dello schermo: testi più grandi sui monitor ampi */
+  html { font-size: clamp(16px, 0.6rem + 0.75vw, 24px); }
+  :root { --gutter: clamp(2rem, 4vw, 4rem); --hdr-h: 5rem; --section: clamp(5rem, 8vw, 8rem); --max: 90rem; --side: clamp(2.5rem, 6vw, 7rem); --screen: calc(100vh - var(--hdr-h)); }
+  body { font-size: 1.0625rem; }
+  .h2 { font-size: clamp(2.5rem, 3.6vw, 3.75rem); line-height: 1.05; }
+  .h2--big { font-size: clamp(3rem, 4.6vw, 4.75rem); }
+  .eyebrow { font-size: 0.8125rem; margin-bottom: 1rem; }
+  .muted { font-size: 1.0625rem; }
+  .lead { font-size: clamp(1.25rem, 1.6vw, 1.5rem); }
+  .btn { min-height: 3.25rem; padding: 0.9rem 1.75rem; font-size: 0.8125rem; }
 
-  .card { flex-basis: 25%; }
-  .rail__btn { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 1px solid var(--ink); }
-  .rail__btn svg { width: 1.1rem; height: 1.1rem; fill: none; stroke: currentColor; stroke-width: 1.6; }
-  .rail__btn:hover { background: var(--ink); color: var(--white); }
-  .rail__btn:disabled { opacity: 0.3; cursor: default; }
+  /* header */
+  .hdr__bar { gap: 1rem; max-width: none; padding-left: var(--side); padding-right: calc(var(--side) - 0.6rem); }
+  .hdr__logo { width: 8rem; margin-right: clamp(1rem, 3vw, 3rem); }
+  .hdr__bar > [data-open="menu"] { display: none; }
+  .hdr__nav { display: flex; gap: clamp(1.25rem, 2.5vw, 2.75rem); }
+  .hdr__nav a { position: relative; padding-block: 0.5rem; font: 600 0.9375rem/1 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: currentColor; text-decoration: none; }
+  .hdr__nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .25s ease; }
+  .hdr__nav a:hover::after { transform: scaleX(1); }
 
-  .story__inner { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); gap: 5rem; align-items: center; }
+  /* 1. apertura: foto a tutto schermo, testo grande in basso a sinistra */
+  .hero__photo img { height: 100vh; min-height: 40rem; max-height: none; object-position: 50% 55%; }
+  .hero__photo::after { background: linear-gradient(15deg, rgba(20, 23, 17, 0.8) 0%, rgba(20, 23, 17, 0.35) 32%, rgba(20, 23, 17, 0) 52%); }
+  .hero__text { inset: auto 0 0 0; display: block; max-width: none; padding: 0 var(--side) clamp(3rem, 7vh, 5.5rem); }
+  .hero__text .hero__head > *, .hero__text .hero__foot > * { max-width: 40rem; }
+  .hero__links { display: none; }
+  .hero__title { font-size: clamp(4.5rem, 8vw, 8rem); gap: 0.6rem; }
+  .hero__title span { font-size: clamp(0.9375rem, 1.2vw, 1.125rem); }
+  .hero__lead { display: block; margin: 1.25rem 0 0; font-size: clamp(1.0625rem, 1.3vw, 1.25rem); }
+  .hero__actions { display: flex; gap: 1rem; margin-top: 2rem; }
+  .hero__actions .btn { background: transparent; }
 
-  .dealers__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 5rem; align-items: start; }
-  .dealers__intro { position: sticky; top: calc(var(--hdr-h) + 1.5rem); }
-  .dealers__list .field { margin-top: 0; }
+  /* 2. collezioni: due foto affiancate alte quanto lo schermo */
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tile img { aspect-ratio: auto; height: 100vh; min-height: 40rem; max-height: none; object-position: 50% 100%; }
+  .tile::after { inset: 0 0 55%; }
+  .tile__text { padding-top: clamp(4rem, 12vh, 8rem); gap: 1rem; }
+  .tile__title { font-size: clamp(3rem, 4.4vw, 4.5rem); }
+  .tile .btn { min-height: 3rem; padding-inline: 2rem; }
 
-  .shops__inner { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr); gap: 4rem; align-items: start; }
-  .shops__img { aspect-ratio: 2 / 3; object-position: 50% 50%; }
+  /* 3. qualità: testo e tondi a sinistra, foto a destra fino al bordo */
+  .details { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: 1fr auto auto 1fr; padding: 0; min-height: var(--screen); }
+  .details .wrap:first-child { grid-column: 1; grid-row: 2; max-width: none; margin: 0; padding: 0 var(--side) 3rem; }
+  .details__photo { grid-column: 2; grid-row: 1 / -1; position: relative; min-height: var(--screen); }
+  .details__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 100% 50%; }
+  .details__grid { grid-column: 1; grid-row: 3; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem 2rem; max-width: none; margin: 0; padding: 0 var(--side); background: none; }
+  .details__grid img { max-width: 9.5rem; }
+  .details__grid h3 { font-size: 1.375rem; }
+  .details__grid p { font-size: 0.9375rem; }
 
-  .help { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
-  .help img { grid-column: 2; grid-row: 1; aspect-ratio: 4 / 5; max-height: 44rem; object-position: 50% 70%; }
+  /* 4. storia: foto a sinistra da bordo a bordo, testo a destra */
+  .story { padding: 0; }
+  .story__inner { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0; align-items: center; max-width: none; padding: 0; min-height: var(--screen); }
+  .story__img { align-self: stretch; width: 100%; height: 100%; min-height: var(--screen); max-height: none; aspect-ratio: auto; object-fit: cover; object-position: 50% 70%; }
+  .story__text { max-width: 44rem; padding: var(--section) var(--side); gap: 1.25rem; }
+
+  /* 5. rivenditori: mappa grande a sinistra, elenco a destra */
+  .dealers { padding-block: var(--section); }
+  .dealers__inner { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: clamp(3rem, 6vw, 7rem); align-items: center; max-width: none; padding-inline: var(--side); }
+  .dealers__intro { position: static; }
+  .dealers .h2 { margin-bottom: 1rem; }
+  .map { margin-top: 2.5rem; }
+  .map__city { font-size: 17px; }
+  .field label { font-size: 0.8125rem; }
+  .field input { height: 3.5rem; font-size: 1.125rem; }
+  .region summary { padding-block: 1.25rem; }
+  .region__name { font-size: 1.625rem; }
+  .region__n { font-size: 0.9375rem; }
+  .store h4 { font-size: 1.0625rem; }
+  .store address, .store__links { font-size: 0.9375rem; }
+
+  /* 6. shop online: foto a sinistra da bordo a bordo, negozi a destra */
+  .shops { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: 1fr auto auto 1fr; padding: 0; min-height: var(--screen); }
+  .shops__inner { display: contents; }
+  .shops__img { grid-column: 1; grid-row: 1 / -1; width: 100%; height: 100%; min-height: var(--screen); aspect-ratio: auto; object-fit: cover; object-position: 50% 75%; }
+  .shops__head { grid-column: 2; grid-row: 2; max-width: none; margin: 0; padding: var(--section) var(--side) 2rem; }
+  .shops__list { grid-column: 2; grid-row: 3; padding: 0 var(--side) var(--section); }
+  .shop a { padding-block: 1.25rem; }
+  .shop__name { font-size: 1.625rem; }
+  .shop__towns { font-size: 0.9375rem; }
+  .shop__region { font-size: 0.75rem; }
+  .shop__go { width: 3.25rem; height: 3.25rem; }
+
+  /* 7. aiuto: testo sul verde a sinistra, foto a destra da bordo a bordo */
+  .help { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; min-height: var(--screen); }
+  .help img { grid-column: 2; grid-row: 1; align-self: stretch; width: 100%; height: 100%; min-height: var(--screen); max-height: none; aspect-ratio: auto; object-position: 50% 65%; }
   .help::after { display: none; }
-  .help__text { position: static; grid-column: 1; grid-row: 1; max-width: 34rem; margin-right: 0; padding-block: var(--section); }
+  .help__text { position: static; grid-column: 1; grid-row: 1; max-width: none; margin: 0; padding: var(--section) var(--side); gap: 1rem; }
+  .help__text > * { max-width: 36rem; }
+  .help .h2 { font-size: clamp(3rem, 4.6vw, 4.75rem); }
+  .help p { font-size: 1.125rem; }
 
-  .ftr .wrap { display: grid; grid-template-columns: 1fr 1fr; column-gap: 4rem; }
+  /* footer */
+  .ftr { padding-top: 5rem; }
+  .ftr .wrap { display: grid; grid-template-columns: 1fr 1fr; column-gap: 4rem; max-width: none; padding-inline: var(--side); }
+  .ftr__logo { width: 10rem; }
+  .ftr__claim { font-size: 1.375rem; }
   .ftr__cols { margin-top: 0; grid-row: 1 / span 2; grid-column: 2; }
-  .ftr__bottom { grid-column: 1 / -1; }
+  .ftr ul { font-size: 1.0625rem; }
+  .ftr__bottom { grid-column: 1 / -1; font-size: 0.875rem; }
+
+  .wa { right: calc(2rem + env(safe-area-inset-right, 0px)); bottom: calc(2rem + env(safe-area-inset-bottom, 0px)); width: 3.75rem; height: 3.75rem; }
+}
+
+/* schermi da 900 a 1200px: un po' più compatti */
+@media (min-width: 56em) and (max-width: 75em) {
+  .hdr__nav { gap: 1.1rem; }
+  .hdr__nav a { font-size: 0.75rem; letter-spacing: 0.08em; }
+  .hdr__logo { width: 6.5rem; margin-right: 0.75rem; }
+  .details__grid img { max-width: 7.5rem; }
 }

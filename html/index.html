@@ -25,6 +25,15 @@
       <button class="icon-btn" type="button" data-open="menu" aria-controls="menu" aria-expanded="false" aria-label="Apri il menu">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
       </button>
+      <nav class="hdr__nav" aria-label="Principale">
+        <a href="#donna">Donna</a>
+        <a href="#uomo">Uomo</a>
+        <a href="#dettagli">Qualità</a>
+        <a href="#storia">Storia</a>
+        <a href="#rivenditori">Rivenditori</a>
+        <a href="#shop-online">Shop online</a>
+        <a href="https://lookbook.monpiz.it/" target="_blank" rel="noopener">Lookbook ↗</a>
+      </nav>
       <div class="hdr__tools">
         <button class="icon-btn" type="button" data-open="cerca" aria-controls="cerca" aria-expanded="false" aria-label="Cerca un modello o un negozio">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
@@ -56,7 +65,6 @@
           <li><a href="#donna" data-close>Collezioni</a></li>
           <li><a href="#donna" data-close>Collezione Donna</a></li>
           <li><a href="#uomo" data-close>Collezione Uomo</a></li>
-          <li><a href="#dettagli" data-close>Qualità nei dettagli</a></li>
           <li><a href="#storia" data-close>La nostra storia</a></li>
           <li><a href="#rivenditori" data-close>Rivenditori</a></li>
           <li><a href="#shop-online" data-close>Shop online</a></li>
@@ -89,20 +97,32 @@
 
     <!-- ===== 1. APERTURA ===== -->
     <section class="hero" aria-labelledby="hero-t">
-      <figure class="hero__photo">
-        <img src="../img/hero.webp" alt="Due paia di pedule MonPiz in pelle marrone, con lacci rossi e gialli, tra le radici del bosco" width="1240" height="833" fetchpriority="high">
-      </figure>
+      <picture class="hero__photo">
+        <source media="(max-width: 55.99em)" srcset="../img/hero-mobile.webp" width="1000" height="1500">
+        <img src="../img/hero.webp" alt="Pedule MonPiz con lacci rossi nel bosco" width="1240" height="833" fetchpriority="high">
+      </picture>
       <div class="hero__text wrap">
-        <p class="eyebrow">Collezione F/W 2026/2027</p>
-        <h1 class="hero__title" id="hero-t">MonPiz <span>Pedule urban fashion</span></h1>
-        <p class="hero__lead">Fatte a mano a Montebelluna, con pelli italiane e suole Vibram.</p>
-        <div class="hero__actions">
-          <a class="btn" href="https://lookbook.monpiz.it/" target="_blank" rel="noopener">Lookbook</a>
-          <a class="btn" href="#rivenditori">Rivenditori</a>
-          <a class="btn" href="#shop-online">Shop online</a>
+        <div class="hero__head">
+          <nav class="hero__links" aria-label="Sezioni">
+            <a href="#donna">Donna</a>
+            <a href="#uomo">Uomo</a>
+            <a href="#storia">Storia</a>
+            <a href="#rivenditori">Rivenditori</a>
+            <a href="#shop-online">Shop online</a>
+          </nav>
+          <h1 class="hero__title" id="hero-t">MonPiz <span>Pedule urban fashion</span></h1>
+        </div>
+        <div class="hero__foot">
+          <p class="hero__lead">Fatte a mano a Montebelluna, con pelli italiane e suole Vibram.</p>
+          <div class="hero__actions">
+            <a class="btn" href="https://lookbook.monpiz.it/" target="_blank" rel="noopener">Lookbook</a>
+            <a class="btn" href="#rivenditori">Rivenditori</a>
+            <a class="btn" href="#shop-online">Shop online</a>
+          </div>
         </div>
       </div>
     </section>
+
 
     <!-- ===== 3. COLLEZIONI DONNA E UOMO ===== -->
     <section class="tiles" aria-label="Collezioni">
@@ -131,7 +151,7 @@
         <h2 class="h2 h2--big" id="det-t">Qualità nei dettagli</h2>
       </div>
       <figure class="details__photo">
-        <img src="../img/materiali.webp" alt="Pedula MonPiz in suede verde sul prato, con la suola Vibram e le pelli della collezione" width="1400" height="934" loading="lazy">
+        <img src="../img/materiali.webp" alt="Dettaglio della pedula MonPiz Grostè in pelle verde, con collarino imbottito, ganci in metallo e lacci rossi" width="2000" height="1334" loading="lazy">
       </figure>
       <ul class="details__grid wrap">
         <li><img src="../img/dettagli/tomaia.webp" alt="" width="400" height="400" loading="lazy"><h3>Tomaia</h3><p>in pelle di <b>vitello conciato</b> in Toscana</p></li>
