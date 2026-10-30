@@ -1,0 +1,414 @@
+/* =============================================================================
+   MonPiz — sito 2026
+   Mobile first: tutte le regole base sono per il telefono, i @media (min-width)
+   in fondo allargano il layout per tablet e computer.
+   Ispirazione: pulizia e foto grandi in stile "technical wear", identità MonPiz
+   (colori del lookbook, Fraunces per i titoli, linea delle montagne).
+   ============================================================================= */
+
+:root {
+  /* colori */
+  --ink: #1F231B;          /* testo principale */
+  --forest: #24291F;       /* fasce scure, footer */
+  --body: #4A5043;         /* testo corrente */
+  --muted: #6B7060;        /* testo secondario */
+  --olive: #6D6F2E;        /* accento MonPiz */
+  --olive-dark: #52541F;
+  --olive-light: #CDD08A;  /* accento su fondo scuro */
+  --paper: #EFECE2;        /* fondo carta del lookbook */
+  --card: #F4F3EF;         /* fondo schede prodotto */
+  --white: #FFFFFF;
+  --rule: #E2DED2;         /* linee sottili */
+  --on-dark: #FFFDF8;
+  --on-dark-muted: #D9D7C2;
+
+  /* caratteri */
+  --display: "Fraunces", Georgia, "Times New Roman", serif;
+  --sans: "Figtree", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  /* misure */
+  --gutter: 1.25rem;
+  --hdr-h: 3.75rem;
+  --section: 3.5rem;
+  --max: 75rem;
+}
+
+/* ---------- base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: calc(var(--hdr-h) + 0.5rem); }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--body);
+  font: 400 0.9375rem/1.55 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+body.is-locked { overflow: hidden; }
+img, svg { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+h1, h2, h3, p, ul, dl, dd, figure { margin: 0; padding: 0; }
+ul { list-style: none; }
+:focus-visible { outline: 2px solid var(--olive); outline-offset: 3px; }
+[hidden] { display: none !important; }
+
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip { position: absolute; left: var(--gutter); top: -3rem; z-index: 100; padding: 0.6rem 1rem; background: var(--ink); color: var(--white); text-decoration: none; }
+.skip:focus { top: 0.5rem; }
+
+.wrap {
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+}
+
+/* ---------- tipografia ---------- */
+.eyebrow { margin-bottom: 0.6rem; font: 600 0.6875rem/1.3 var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--olive); }
+.h2 { font: 500 1.75rem/1.12 var(--display); letter-spacing: -0.01em; color: var(--ink); text-wrap: balance; }
+.h2--big { font-size: 2.5rem; line-height: 1.02; }
+.lead { font: 400 1.125rem/1.45 var(--display); color: var(--ink); }
+.muted { color: var(--muted); font-size: 0.875rem; }
+
+/* ---------- pulsanti ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-height: 2.75rem; padding: 0.7rem 1rem;
+  border: 1px solid var(--ink); border-radius: 0;
+  font: 600 0.71875rem/1 var(--sans); letter-spacing: 0.1em; text-transform: uppercase; text-align: center;
+  color: var(--ink); text-decoration: none; background: transparent;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+.btn:hover { background: var(--ink); color: var(--paper); }
+.btn--light { border-color: var(--on-dark); color: var(--on-dark); }
+.btn--light:hover { background: var(--on-dark); color: var(--ink); }
+.btn--ghost { border-color: rgba(255, 253, 248, 0.5); color: var(--on-dark); }
+.btn--ghost:hover { background: var(--on-dark); color: var(--ink); border-color: var(--on-dark); }
+
+.link-all { font-size: 0.8125rem; font-weight: 600; color: var(--ink); text-decoration: underline; text-underline-offset: 0.25em; text-decoration-thickness: 1px; white-space: nowrap; }
+.link-all:hover { color: var(--olive); }
+
+.icon-btn { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; color: currentColor; }
+.icon-btn svg { width: 1.375rem; height: 1.375rem; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+/* =============================================================================
+   HEADER
+   ============================================================================= */
+.hdr {
+  position: fixed; inset: 0 0 auto; z-index: 50;
+  color: var(--white);
+  padding-top: env(safe-area-inset-top, 0px);
+  transition: background-color .25s ease, color .25s ease, box-shadow .25s ease;
+}
+.hdr::before { /* leggera ombra per leggere le icone sopra la foto */
+  content: ""; position: absolute; inset: 0 0 -1.5rem; z-index: -1; pointer-events: none;
+  background: linear-gradient(180deg, rgba(20, 23, 17, 0.55), rgba(20, 23, 17, 0));
+  transition: opacity .25s ease;
+}
+.hdr__bar {
+  display: flex; align-items: center; gap: 0.25rem; height: var(--hdr-h);
+  max-width: var(--max); margin-inline: auto;
+  padding-left: max(calc(var(--gutter) - 0.25rem), env(safe-area-inset-left, 0px));
+  padding-right: max(calc(var(--gutter) - 0.6rem), env(safe-area-inset-right, 0px));
+}
+.hdr__logo { position: relative; display: block; width: 5.75rem; margin-right: 0.25rem; }
+.hdr__logo img { width: 100%; }
+.hdr__logo-dark { position: absolute; inset: 0; opacity: 0; }
+.hdr__tools { display: flex; align-items: center; margin-left: auto; }
+
+.hdr.is-solid { background: var(--paper); color: var(--ink); box-shadow: 0 1px 0 var(--rule); }
+.hdr.is-solid::before { opacity: 0; }
+.hdr.is-solid .hdr__logo-light { opacity: 0; }
+.hdr.is-solid .hdr__logo-dark { opacity: 1; }
+
+.lang { position: relative; }
+.lang__menu {
+  position: absolute; right: 0; top: calc(100% + 0.25rem); min-width: 11rem;
+  padding: 0.4rem 0; background: var(--paper); color: var(--ink);
+  box-shadow: 0 8px 28px rgba(20, 23, 17, 0.16);
+  font-size: 0.875rem;
+}
+.lang__menu span { display: block; padding: 0.55rem 1rem; }
+.lang__menu [aria-current] { font-weight: 600; }
+.lang__menu .is-soon { color: var(--muted); }
+
+/* ---------- menu a scomparsa ---------- */
+.drawer { position: fixed; inset: 0; z-index: 80; background: rgba(20, 23, 17, 0.4); }
+.drawer__panel {
+  display: flex; flex-direction: column; height: 100%; width: min(100%, 26rem);
+  background: var(--paper); color: var(--ink); overflow-y: auto;
+  padding: env(safe-area-inset-top, 0px) max(var(--gutter), env(safe-area-inset-right, 0px)) max(1.5rem, env(safe-area-inset-bottom, 0px)) max(var(--gutter), env(safe-area-inset-left, 0px));
+  animation: slide-in .28s ease both;
+}
+@keyframes slide-in { from { transform: translateX(-100%); } to { transform: none; } }
+.drawer__top { display: flex; align-items: center; justify-content: space-between; height: var(--hdr-h); margin-right: -0.6rem; }
+.drawer__top img { width: 5.75rem; }
+.drawer__nav { margin-top: 1rem; border-top: 1px solid var(--rule); }
+.drawer__nav a {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1rem 0; border-bottom: 1px solid var(--rule);
+  font: 500 1.375rem/1.2 var(--display); color: var(--ink); text-decoration: none;
+}
+.drawer__nav a:hover { color: var(--olive); }
+.drawer__contacts { display: grid; gap: 0.5rem; margin-top: auto; padding-top: 2rem; font-size: 0.875rem; }
+.drawer__contacts a { color: var(--muted); text-decoration: none; }
+.drawer__contacts a:hover { color: var(--ink); }
+
+/* ---------- ricerca ---------- */
+.search { position: fixed; inset: 0; z-index: 80; background: rgba(20, 23, 17, 0.4); }
+.search__panel {
+  background: var(--paper); color: var(--ink); max-height: 100%; overflow-y: auto;
+  padding: calc(env(safe-area-inset-top, 0px) + 0.5rem) max(var(--gutter), env(safe-area-inset-right, 0px)) 1.5rem max(var(--gutter), env(safe-area-inset-left, 0px));
+  animation: drop .22s ease both;
+}
+@keyframes drop { from { transform: translateY(-1rem); opacity: 0; } to { transform: none; opacity: 1; } }
+.search__row { display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid var(--ink); margin-right: -0.6rem; }
+.search__row input { flex: 1; min-width: 0; height: 3.25rem; border: 0; outline: none; background: transparent; font: 400 1.0625rem var(--sans); color: var(--ink); }
+.search__row input::placeholder { color: var(--muted); }
+.search__results { padding-top: 0.5rem; }
+.search__group { margin-top: 1.25rem; }
+.search__group h3 { font: 600 0.6875rem/1.3 var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--olive); margin-bottom: 0.25rem; }
+.search__group a { display: flex; justify-content: space-between; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--rule); text-decoration: none; color: var(--ink); }
+.search__group a small { color: var(--muted); font-size: 0.8125rem; text-align: right; }
+.search__hint { margin-top: 1.25rem; color: var(--muted); font-size: 0.875rem; }
+
+/* =============================================================================
+   1. APERTURA
+   ============================================================================= */
+.hero__photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 52% 55%; }
+.hero__text { padding-block: 1.75rem var(--section); }
+.hero__title { display: flex; flex-direction: column; gap: 0.35rem; font: 500 3rem/0.95 var(--display); letter-spacing: -0.02em; color: var(--ink); }
+.hero__title span { font: 600 0.875rem/1.3 var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink); }
+.hero__lead { margin-top: 1rem; max-width: 30em; color: var(--body); }
+.hero__actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; margin-top: 1.5rem; }
+.hero__actions .btn { padding-inline: 0.25rem; letter-spacing: 0.06em; }
+
+/* =============================================================================
+   2. I MODELLI — carosello orizzontale
+   ============================================================================= */
+.models { padding-bottom: var(--section); }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
+.rail__track {
+  display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  scrollbar-width: none; overscroll-behavior-x: contain;
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+}
+.rail__track::-webkit-scrollbar { display: none; }
+.card { flex: 0 0 72%; scroll-snap-align: start; border-right: 1px solid var(--rule); }
+.card:first-child { scroll-margin-left: 0; }
+.card a { display: block; text-decoration: none; color: var(--ink); }
+.card img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: var(--card); transition: transform .5s ease; }
+.card__img { overflow: hidden; background: var(--card); }
+.card a:hover img { transform: scale(1.03); }
+.card__text { display: grid; gap: 0.15rem; padding: 0.85rem 1rem 1rem; border-top: 1px solid var(--rule); }
+.card__line { font: 600 0.6875rem/1.3 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--olive); }
+.card__name { font: 600 1rem/1.3 var(--sans); }
+.card__mat { font-size: 0.8125rem; color: var(--muted); }
+.rail__nav { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; }
+.rail__bar { position: relative; flex: 1; height: 2px; background: var(--rule); overflow: hidden; }
+.rail__bar span { position: absolute; inset: 0 auto 0 0; width: 20%; background: var(--ink); transition: transform .2s ease; }
+.rail__btn { display: none; }
+
+/* =============================================================================
+   3. COLLEZIONI DONNA / UOMO
+   ============================================================================= */
+.tiles { display: grid; }
+.tile { position: relative; display: block; overflow: hidden; color: var(--on-dark); text-decoration: none; }
+.tile img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: 50% 100%; transition: transform .8s ease; }
+.tile:hover img { transform: scale(1.03); }
+.tile::after { content: ""; position: absolute; inset: 0 0 55%; background: linear-gradient(180deg, rgba(20, 23, 17, 0.62), rgba(20, 23, 17, 0)); }
+.tile__text { position: absolute; inset: 0 0 auto; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 2.25rem var(--gutter) 0; text-align: center; }
+.tile__title { font: 500 1.875rem/1.1 var(--display); }
+.tile__sub { display: none; max-width: 24em; font-size: 0.8125rem; color: var(--on-dark-muted); }
+.tile .btn { margin-top: 0.5rem; min-height: 2.5rem; padding-inline: 1.5rem; }
+.tile:hover .btn { background: var(--on-dark); color: var(--ink); }
+
+/* =============================================================================
+   4. QUALITÀ NEI DETTAGLI
+   ============================================================================= */
+.details { padding-top: var(--section); }
+.details .wrap:first-child { margin-bottom: 1.5rem; }
+.details__photo img { width: 100%; }
+.details__grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 1rem;
+  padding-block: 2.5rem; background: var(--paper);
+  max-width: none;
+}
+.details__grid li { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.35rem; }
+.details__grid img { width: 100%; max-width: 8.5rem; aspect-ratio: 1; border-radius: 50%; object-fit: cover; margin-bottom: 0.5rem; }
+.details__grid h3 { font: 500 1.125rem/1.2 var(--display); color: var(--ink); }
+.details__grid p { font-size: 0.8125rem; line-height: 1.45; color: var(--muted); }
+.details__grid b { color: var(--ink); font-weight: 600; }
+
+/* =============================================================================
+   5. STORIA
+   ============================================================================= */
+.story { padding-block: var(--section); }
+.story__inner { display: grid; gap: 1.75rem; }
+.story__img { width: 100%; }
+.story__text { display: grid; gap: 0.9rem; }
+.story__text .h2 { margin-bottom: 0.25rem; }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin-top: 0.75rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.facts dt { font-size: 0.6875rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.facts dd { font: 500 1rem/1.3 var(--display); color: var(--ink); }
+
+/* =============================================================================
+   6. RIVENDITORI
+   ============================================================================= */
+.dealers { padding-block: var(--section); background: var(--paper); }
+.dealers .h2 { margin-bottom: 0.6rem; }
+.map { margin: 1.5rem 0 0.5rem; }
+.map svg { width: 100%; height: auto; overflow: visible; }
+.map__sky { fill: none; stroke: #CFC9B6; stroke-width: 1.2; }
+.map__dot { cursor: pointer; }
+.map__dot circle { fill: var(--olive); stroke: var(--paper); stroke-width: 2; transition: fill .15s ease; }
+.map__dot text { font: 700 12px var(--sans); fill: var(--white); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.map__dot:hover circle, .map__dot:focus-visible circle { fill: var(--ink); }
+.map__city { font: italic 400 15px var(--display); fill: #8B8A76; }
+.map figcaption { margin-top: 0.4rem; font-size: 0.75rem; color: var(--muted); }
+
+.field { margin-top: 1.5rem; }
+.field label { display: block; margin-bottom: 0.25rem; font: 600 0.6875rem/1.3 var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--olive); }
+.field input { width: 100%; height: 3rem; padding: 0 0.1rem; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; background: transparent; outline: none; font: 400 1rem var(--sans); color: var(--ink); }
+.field input::placeholder { color: var(--muted); }
+.dealers__count { min-height: 1.5rem; margin: 0.5rem 0 0.75rem; font-size: 0.8125rem; color: var(--muted); }
+.dealers__empty { margin-top: 1rem; color: var(--muted); }
+
+.region { border-top: 1px solid var(--rule); }
+.region:last-child { border-bottom: 1px solid var(--rule); }
+.region summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 0; cursor: pointer; list-style: none; }
+.region summary::-webkit-details-marker { display: none; }
+.region__name { font: 500 1.1875rem/1.2 var(--display); color: var(--ink); }
+.region__n { display: inline-flex; align-items: center; gap: 0.75rem; font-size: 0.8125rem; color: var(--muted); white-space: nowrap; }
+.region__n svg { width: 0.8rem; height: 0.8rem; fill: none; stroke: var(--ink); stroke-width: 1.6; transition: transform .25s ease; }
+.region[open] .region__n svg { transform: rotate(45deg); }
+.store { padding: 0.85rem 0; border-top: 1px solid rgba(0, 0, 0, 0.05); scroll-margin-top: calc(var(--hdr-h) + 4rem); transition: background-color .5s ease; }
+.store.is-flash { background: rgba(109, 111, 46, 0.12); }
+.store h4 { margin: 0; font: 600 0.9375rem/1.3 var(--sans); color: var(--ink); }
+.store address { font-style: normal; font-size: 0.8125rem; color: var(--muted); }
+.store__links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; margin-top: 0.45rem; font-size: 0.8125rem; font-weight: 600; }
+.store__links a { color: var(--ink); text-underline-offset: 0.2em; }
+.store__links a:hover { color: var(--olive); }
+.store__links .is-shop { color: var(--olive); }
+
+/* =============================================================================
+   7. SHOP ONLINE
+   ============================================================================= */
+.shops { padding-block: var(--section); }
+.shops__head { margin-bottom: 1.5rem; }
+.shops__head .h2 { margin-bottom: 0.4rem; }
+.shops__inner { display: grid; gap: 1.5rem; }
+.shops__img { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: 50% 85%; }
+.shops__list { border-top: 1px solid var(--rule); }
+.shop a { display: flex; align-items: center; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--rule); color: var(--ink); text-decoration: none; }
+.shop__text { flex: 1; min-width: 0; display: grid; gap: 0.1rem; }
+.shop__region { font: 600 0.6875rem/1.3 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--olive); }
+.shop__name { font: 500 1.1875rem/1.2 var(--display); }
+.shop__towns { font-size: 0.8125rem; color: var(--muted); }
+.shop__go { display: grid; place-items: center; flex: none; width: 2.75rem; height: 2.75rem; border: 1px solid var(--ink); transition: background-color .2s ease, color .2s ease; }
+.shop__go svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.shop a:hover .shop__go { background: var(--ink); color: var(--white); }
+
+/* =============================================================================
+   8. AIUTO / WHATSAPP
+   ============================================================================= */
+.help { position: relative; color: var(--on-dark); background: var(--forest); }
+.help img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 75%; }
+.help::after { content: ""; position: absolute; inset: 0 0 50%; background: linear-gradient(180deg, rgba(20, 23, 17, 0.75), rgba(20, 23, 17, 0)); pointer-events: none; }
+.help__text { position: absolute; inset: 0 0 auto; z-index: 1; padding-top: 2.5rem; display: grid; gap: 0.6rem; }
+.help .h2 { color: var(--on-dark); }
+.help p { max-width: 24em; color: var(--on-dark-muted); }
+.help__actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+
+/* =============================================================================
+   FOOTER
+   ============================================================================= */
+.ftr { position: relative; background: var(--forest); color: var(--on-dark); padding-block: 3rem calc(1.5rem + env(safe-area-inset-bottom, 0px)); }
+.ftr__logo { width: 7.5rem; margin-bottom: 1rem; }
+.ftr__claim { font: 400 1.125rem/1.4 var(--display); color: var(--on-dark-muted); }
+.ftr__claim em { color: var(--olive-light); }
+.ftr__cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+.ftr__h { margin-bottom: 0.75rem; font: 600 0.6875rem/1.3 var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--olive-light); }
+.ftr ul { display: grid; gap: 0.55rem; font-size: 0.9375rem; }
+.ftr a { color: var(--on-dark); text-decoration: none; overflow-wrap: anywhere; }
+.ftr a:hover { color: var(--olive-light); }
+.ftr__bottom { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(226, 224, 198, 0.2); font-size: 0.75rem; color: var(--on-dark-muted); }
+.ftr__bottom a { color: var(--on-dark-muted); }
+
+/* ---------- pulsante WhatsApp fisso ---------- */
+.wa {
+  position: fixed; z-index: 40;
+  right: calc(1rem + env(safe-area-inset-right, 0px)); bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  display: grid; place-items: center; width: 3.5rem; height: 3.5rem; border-radius: 50%;
+  background: var(--olive); color: var(--white);
+  box-shadow: 0 6px 20px rgba(20, 23, 17, 0.28);
+  transition: transform .2s ease, background-color .2s ease;
+}
+.wa:hover { transform: scale(1.06); background: var(--olive-dark); }
+.wa svg { width: 1.75rem; height: 1.75rem; fill: currentColor; }
+
+/* ---------- comparsa dolce delle sezioni ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal { opacity: 0; transform: translateY(1.25rem); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.is-in { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* =============================================================================
+   TABLET (da 640px)
+   ============================================================================= */
+@media (min-width: 40em) {
+  :root { --gutter: 2rem; --section: 4.5rem; }
+  .card { flex-basis: 42%; }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .details__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .hero__actions { display: flex; flex-wrap: wrap; }
+  .hero__actions .btn { padding-inline: 1.5rem; }
+}
+
+/* =============================================================================
+   COMPUTER (da 1024px) — da rifinire nella seconda fase
+   ============================================================================= */
+@media (min-width: 64em) {
+  :root { --hdr-h: 4.5rem; --section: 6rem; }
+  .hdr__logo { width: 7rem; }
+  .h2 { font-size: 2.5rem; }
+  .h2--big { font-size: 3.5rem; }
+
+  .hero__photo img { aspect-ratio: auto; height: min(78vh, 52rem); }
+  .hero__text { display: grid; grid-template-columns: 1fr 1fr; column-gap: 4rem; align-items: end; padding-block: 3rem var(--section); }
+  .hero__title { grid-row: 1 / span 3; font-size: 4.5rem; }
+  .hero__text .eyebrow { grid-column: 1; grid-row: 1; align-self: start; }
+  .hero__title { grid-column: 1; grid-row: 2 / span 2; }
+  .hero__lead, .hero__actions { grid-column: 2; }
+
+  .card { flex-basis: 25%; }
+  .rail__btn { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 1px solid var(--ink); }
+  .rail__btn svg { width: 1.1rem; height: 1.1rem; fill: none; stroke: currentColor; stroke-width: 1.6; }
+  .rail__btn:hover { background: var(--ink); color: var(--white); }
+  .rail__btn:disabled { opacity: 0.3; cursor: default; }
+
+  .story__inner { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); gap: 5rem; align-items: center; }
+
+  .dealers__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 5rem; align-items: start; }
+  .dealers__intro { position: sticky; top: calc(var(--hdr-h) + 1.5rem); }
+  .dealers__list .field { margin-top: 0; }
+
+  .shops__inner { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr); gap: 4rem; align-items: start; }
+  .shops__img { aspect-ratio: 2 / 3; object-position: 50% 50%; }
+
+  .help { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
+  .help img { grid-column: 2; grid-row: 1; aspect-ratio: 4 / 5; max-height: 44rem; object-position: 50% 70%; }
+  .help::after { display: none; }
+  .help__text { position: static; grid-column: 1; grid-row: 1; max-width: 34rem; margin-right: 0; padding-block: var(--section); }
+
+  .ftr .wrap { display: grid; grid-template-columns: 1fr 1fr; column-gap: 4rem; }
+  .ftr__cols { margin-top: 0; grid-row: 1 / span 2; grid-column: 2; }
+  .ftr__bottom { grid-column: 1 / -1; }
+}

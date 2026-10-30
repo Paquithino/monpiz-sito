@@ -1,0 +1,14 @@
+{
+  "name": "monpiz-sito",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Nuovo sito MonPiz: HTML, CSS e JavaScript senza framework.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host --open /html/index.html",
+    "preview": "vite preview --host"
+  },
+  "devDependencies": {
+    "vite": "5.4.10"
+  }
+}
