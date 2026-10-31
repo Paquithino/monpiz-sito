@@ -21,12 +21,20 @@ export async function openHome(page, { lang = "it", consent = true, path = HOME 
 
 export const isMobile = (testInfo) => testInfo.project.name === "mobile";
 
-/** Raccoglie gli errori JavaScript della pagina. */
+/** Raccoglie gli errori JavaScript della pagina e i file che non si caricano (con il loro indirizzo). */
 export function collectErrors(page) {
   const errors = [];
   page.on("pageerror", (e) => errors.push(String(e)));
   page.on("console", (m) => {
-    if (m.type() === "error" && !/favicon|ERR_|net::/i.test(m.text())) errors.push(m.text());
+    if (m.type() !== "error") return;
+    if (/Failed to load resource/i.test(m.text())) return; // gestito sotto, con l'indirizzo del file
+    if (!/favicon|ERR_|net::/i.test(m.text())) errors.push(m.text());
+  });
+  page.on("response", (r) => {
+    const url = r.url();
+    if (r.status() >= 400 && url.startsWith("http://localhost") && !/favicon/i.test(url)) {
+      errors.push(`File non trovato (${r.status()}): ${url}`);
+    }
   });
   return errors;
 }

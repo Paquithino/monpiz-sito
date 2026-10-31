@@ -1,8 +1,27 @@
 # Sito MonPiz — versione 2026
 
-Sito in HTML, CSS e JavaScript puro, senza framework. 
+Sito in HTML, CSS e JavaScript puro, senza framework. Prima versione pensata per il telefono;
+il layout per computer c'è ma va rifinito nella seconda fase.
 
+## Avviarlo in VS Code
 
+1. Apri la cartella `monpiz-sito` in VS Code.
+2. Apri il terminale integrato (Terminale → Nuovo terminale).
+3. La prima volta installa il server di sviluppo:
+   ```bash
+   npm install
+   ```
+4. Avvia il sito:
+   ```bash
+   npm run dev
+   ```
+   Si apre il browser su `http://localhost:5173/html/index.html`. Ogni volta che salvi un file
+   la pagina si aggiorna da sola. Per vederlo sul telefono, collegato alla stessa rete Wi-Fi,
+   usa l'indirizzo "Network" che compare nel terminale.
+5. Per fermarlo: `Ctrl + C` nel terminale.
+
+Serve Node.js 18 o più recente (https://nodejs.org). I file non si aprono con un doppio clic,
+perché il JavaScript usa i moduli: serve il server di `npm run dev`.
 
 ## Struttura
 

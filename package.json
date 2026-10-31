@@ -13,7 +13,7 @@
     "test:mobile": "playwright test --project=mobile",
     "test:links": "EXTERNAL=1 playwright test link-esterni --project=desktop",
     "test:report": "playwright show-report",
-    "test:install": "playwright install chromium webkit"
+    "test:install": "playwright install chromium"
   },
   "devDependencies": {
     "vite": "5.4.10",
