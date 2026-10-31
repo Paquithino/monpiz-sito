@@ -1,8 +1,10 @@
 /* MonPiz — comportamento della pagina.
-   Ogni funzione gestisce un pezzo: header, menu, ricerca, lingua, carosello,
-   mappa e rivenditori, shop online, comparsa delle sezioni. */
+   Ogni funzione gestisce un pezzo: header, logo, video, menu, ricerca, lingua,
+   mappa e rivenditori, shop online, comparsa delle sezioni.
+   I testi stanno in i18n.js (italiano e inglese). */
 
 import { RIVENDITORI, MAPPA, MODELLI, CONTATTI } from "./data.js";
+import { applyLang, initialLang, getLang, t } from "./i18n.js";
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -18,7 +20,6 @@ const ARROW =
   '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg>';
 const PLUS =
   '<svg viewBox="0 0 13 13" aria-hidden="true"><path d="M6.5 0v13M0 6.5h13"/></svg>';
-const imgPath = (name) => `../img/prodotti/${name}.webp`;
 const allStores = RIVENDITORI.flatMap((r) =>
   r.negozi.map((n) => ({ ...n, regione: r.regione })),
 );
@@ -40,7 +41,37 @@ function initHeader() {
   io.observe(hero);
 }
 
+/* ---------- video di apertura: versione verticale o orizzontale secondo lo schermo ---------- */
+function initHeroVideo() {
+  const v = $(".hero__video");
+  if (!v) return;
+  const mq = matchMedia("(max-width: 55.99em)");
+  const still = matchMedia("(prefers-reduced-motion: reduce)");
+  const pick = () => {
+    const kind = mq.matches ? "mobile" : "desktop";
+    if (v.dataset.current === kind) return;
+    v.dataset.current = kind;
+    v.poster = v.dataset[`poster${kind[0].toUpperCase()}${kind.slice(1)}`];
+    v.src = v.dataset[`src${kind[0].toUpperCase()}${kind.slice(1)}`];
+    if (still.matches) {
+      v.removeAttribute("autoplay");
+      v.pause();
+      return;
+    }
+    v.play().catch(() => {}); // se il browser blocca l'avvio resta l'immagine di copertina
+  };
+  pick();
+  mq.addEventListener("change", pick);
+  // fuori dallo schermo il video si ferma, per non consumare batteria
+  new IntersectionObserver(([e]) => {
+    if (still.matches) return;
+    if (e.isIntersecting) v.play().catch(() => {});
+    else v.pause();
+  }).observe(v);
+}
+
 /* ---------- pannelli: menu e ricerca ---------- */
+let panels = { close() {} };
 function initPanels() {
   let open = null;
   let opener = null;
@@ -85,26 +116,62 @@ function initPanels() {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") close();
   });
-  return { close };
+  panels = {
+    close: () => {
+      opener = null;
+      close();
+    },
+  };
 }
 
-/* ---------- lingua ---------- */
+/* ---------- logo e "torna su": tornano al video in cima alla pagina ---------- */
+function initBackToTop() {
+  const still = matchMedia("(prefers-reduced-motion: reduce)");
+  $$(".js-top").forEach((a) =>
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      panels.close();
+      window.scrollTo({ top: 0, behavior: still.matches ? "auto" : "smooth" });
+      history.replaceState(null, "", location.pathname + location.search);
+      $(".hero__video")
+        ?.play()
+        .catch(() => {});
+    }),
+  );
+}
+
+/* ---------- lingua: italiano / inglese ---------- */
+function setLang(lang) {
+  applyLang(lang, { n: allStores.length });
+  $$("[data-lang]").forEach((b) =>
+    b.setAttribute("aria-current", String(b.dataset.lang === getLang())),
+  );
+  renderDealers();
+  renderShops();
+  renderSearch();
+}
+
 function initLang() {
   const btn = $("[data-lang-toggle]");
   const menu = $("#lingue");
-  if (!btn || !menu) return;
-  btn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    menu.hidden = !menu.hidden;
-    btn.setAttribute("aria-expanded", String(!menu.hidden));
-  });
-  document.addEventListener("click", () => {
-    menu.hidden = true;
-    btn.setAttribute("aria-expanded", "false");
-  });
+  if (btn && menu) {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      menu.hidden = !menu.hidden;
+      btn.setAttribute("aria-expanded", String(!menu.hidden));
+    });
+    document.addEventListener("click", () => {
+      menu.hidden = true;
+      btn.setAttribute("aria-expanded", "false");
+    });
+  }
+  $$("[data-lang]").forEach((b) =>
+    b.addEventListener("click", () => setLang(b.dataset.lang)),
+  );
 }
 
 /* ---------- ricerca: modelli e negozi ---------- */
+let renderSearch = () => {};
 function initSearch() {
   const input = $("#cerca-input");
   const out = $("#cerca-risultati");
@@ -113,12 +180,13 @@ function initSearch() {
   const render = () => {
     const q = input.value.trim().toLowerCase();
     if (q.length < 2) {
-      out.innerHTML =
-        '<p class="search__hint">Prova con "Cortina", "Trento" o il nome di un negozio.</p>';
+      out.innerHTML = `<p class="search__hint">${esc(t("search.hint"))}</p>`;
       return;
     }
     const models = MODELLI.filter((m) =>
-      `${m.nome} ${m.linea} ${m.materiale}`.toLowerCase().includes(q),
+      `${m.nome} ${m.linea} ${t("line." + m.linea)} ${m.materiale}`
+        .toLowerCase()
+        .includes(q),
     );
     const stores = allStores.filter((s) =>
       `${s.nome} ${s.indirizzo} ${s.regione}`.toLowerCase().includes(q),
@@ -126,18 +194,18 @@ function initSearch() {
     let html = "";
     if (models.length) {
       html +=
-        '<div class="search__group"><h3>Modelli</h3>' +
+        `<div class="search__group"><h3>${esc(t("search.models"))}</h3>` +
         models
           .map(
             (m) =>
-              `<a href="${CONTATTI.lookbook}" target="_blank" rel="noopener"><span>${esc(m.nome)} · ${esc(m.linea)}</span><small>${esc(m.materiale)}</small></a>`,
+              `<a href="${CONTATTI.lookbook}" target="_blank" rel="noopener"><span>${esc(m.nome)} · ${esc(t("line." + m.linea))}</span><small>${esc(m.materiale)}</small></a>`,
           )
           .join("") +
         "</div>";
     }
     if (stores.length) {
       html +=
-        '<div class="search__group"><h3>Negozi</h3>' +
+        `<div class="search__group"><h3>${esc(t("search.stores"))}</h3>` +
         stores
           .map(
             (s) =>
@@ -147,9 +215,9 @@ function initSearch() {
         "</div>";
     }
     out.innerHTML =
-      html ||
-      '<p class="search__hint">Nessun risultato. Scrivici su WhatsApp, ti aiutiamo noi.</p>';
+      html || `<p class="search__hint">${esc(t("search.none"))}</p>`;
   };
+  renderSearch = render;
 
   input.addEventListener("input", render);
   out.addEventListener("click", (e) => {
@@ -162,62 +230,19 @@ function initSearch() {
   render();
 }
 
-/* ---------- carosello dei modelli ---------- */
-function initModels() {
-  const track = $("[data-models]");
-  if (!track) return;
-  track.innerHTML = MODELLI.map(
-    (m) => `
-    <li class="card">
-      <a href="${CONTATTI.lookbook}" target="_blank" rel="noopener">
-        <div class="card__img"><img src="${imgPath(m.img)}" alt="Pedula MonPiz ${esc(m.nome)} ${esc(m.linea.toLowerCase())}, ${esc(m.materiale.toLowerCase())}" width="800" height="1000" loading="lazy"></div>
-        <div class="card__text">
-          <span class="card__line">${esc(m.linea)}</span>
-          <span class="card__name">${esc(m.nome)}</span>
-          <span class="card__mat">${esc(m.materiale)}</span>
-        </div>
-      </a>
-    </li>`,
-  ).join("");
-
-  const bar = $("[data-rail-progress]");
-  const prev = $("[data-rail-prev]");
-  const next = $("[data-rail-next]");
-  const update = () => {
-    const max = track.scrollWidth - track.clientWidth;
-    const ratio = track.clientWidth / track.scrollWidth;
-    const pos = max > 0 ? track.scrollLeft / max : 0;
-    bar.style.width = `${ratio * 100}%`;
-    bar.style.transform = `translateX(${pos * (1 / ratio - 1) * 100}%)`;
-    if (prev) prev.disabled = track.scrollLeft < 4;
-    if (next) next.disabled = track.scrollLeft > max - 4;
-  };
-  const step = () =>
-    track.querySelector(".card")?.offsetWidth || track.clientWidth;
-  prev?.addEventListener("click", () =>
-    track.scrollBy({ left: -step(), behavior: "smooth" }),
-  );
-  next?.addEventListener("click", () =>
-    track.scrollBy({ left: step(), behavior: "smooth" }),
-  );
-  track.addEventListener("scroll", update, { passive: true });
-  window.addEventListener("resize", update);
-  update();
-}
-
 /* ---------- rivenditori: mappa, elenco e ricerca ---------- */
 function storeHTML(s) {
   const links = [];
   if (s.telefono)
     links.push(
-      `<a href="tel:${s.telefono.replace(/\s+/g, "")}">Tel. ${esc(s.telefono)}</a>`,
+      `<a href="tel:${s.telefono.replace(/\s+/g, "")}">${esc(t("store.tel"))} ${esc(s.telefono)}</a>`,
     );
   links.push(
-    `<a href="${esc(s.mappa)}" target="_blank" rel="noopener">Mappa</a>`,
+    `<a href="${esc(s.mappa)}" target="_blank" rel="noopener">${esc(t("store.map"))}</a>`,
   );
   if (s.shop)
     links.push(
-      `<a class="is-shop" href="${esc(s.shop)}" target="_blank" rel="noopener">Shop online ↗</a>`,
+      `<a class="is-shop" href="${esc(s.shop)}" target="_blank" rel="noopener">${esc(t("store.shop"))} ↗</a>`,
     );
   return `<li class="store" id="${s.id}" data-s="${esc(`${s.nome} ${s.indirizzo} ${s.regione}`.toLowerCase())}">
     <h4>${esc(s.nome)}</h4><address>${esc(s.indirizzo)}</address>
@@ -245,16 +270,18 @@ function goToStores(ids) {
   });
 }
 
-function initDealers() {
+function renderDealers() {
   const regionsEl = $("[data-regions]");
   if (!regionsEl) return;
-  $("[data-count]").textContent = allStores.length;
+  const count = $("[data-count]");
+  if (count) count.textContent = allStores.length;
 
+  const q = ($("#riv-q")?.value || "").trim();
   regionsEl.innerHTML = RIVENDITORI.map(
     (r) => `
     <details class="region" data-region="${esc(r.regione.toLowerCase())}">
       <summary><span class="region__name">${esc(r.regione)}</span>
-        <span class="region__n">${r.negozi.length} ${r.negozi.length === 1 ? "negozio" : "negozi"}${PLUS}</span></summary>
+        <span class="region__n">${r.negozi.length} ${esc(t(r.negozi.length === 1 ? "dealers.store1" : "dealers.storeN"))}${PLUS}</span></summary>
       <ul>${r.negozi.map((n) => storeHTML({ ...n, regione: r.regione })).join("")}</ul>
     </details>`,
   ).join("");
@@ -269,7 +296,8 @@ function initDealers() {
         const s = ss[0];
         return `<a class="map__dot" href="${esc(s.shop || s.mappa)}" target="_blank" rel="noopener" aria-label="${esc(label)}"><title>${esc(label)}</title><circle r="7" cx="${d.x}" cy="${d.y}"/></a>`;
       }
-      return `<a class="map__dot" href="#${ss[0].id}" data-ids="${ss.map((s) => s.id).join(" ")}" aria-label="${ss.length} negozi: ${esc(label)}"><title>${esc(label)}</title><circle r="12" cx="${d.x}" cy="${d.y}"/><text x="${d.x}" y="${d.y}">${ss.length}</text></a>`;
+      const group = t("map.group", { n: ss.length, list: label });
+      return `<a class="map__dot" href="#${ss[0].id}" data-ids="${ss.map((s) => s.id).join(" ")}" aria-label="${esc(group)}"><title>${esc(label)}</title><circle r="12" cx="${d.x}" cy="${d.y}"/><text x="${d.x}" y="${d.y}">${ss.length}</text></a>`;
     })
     .join("");
   const cities = MAPPA.citta
@@ -279,8 +307,8 @@ function initDealers() {
     )
     .join("");
   $("[data-map]").innerHTML =
-    `<svg viewBox="0 0 ${MAPPA.w} ${MAPPA.h}" role="img" aria-label="Mappa dei rivenditori MonPiz"><path class="map__sky" d="${MAPPA.cielo}"/>${cities}${dots}</svg>
-    <figcaption>I punti singoli aprono lo shop o Google Maps; i numeri raggruppano i negozi vicini.</figcaption>`;
+    `<svg viewBox="0 0 ${MAPPA.w} ${MAPPA.h}" role="img" aria-label="${esc(t("map.aria"))}"><path class="map__sky" d="${MAPPA.cielo}"/>${cities}${dots}</svg>
+    <figcaption>${esc(t("map.caption"))}</figcaption>`;
   $$("[data-ids]").forEach((a) =>
     a.addEventListener("click", (e) => {
       e.preventDefault();
@@ -288,7 +316,12 @@ function initDealers() {
     }),
   );
 
-  // ricerca nell'elenco
+  if (q) $("#riv-q").dispatchEvent(new Event("input")); // riapplica un'eventuale ricerca in corso
+}
+
+function initDealers() {
+  const regionsEl = $("[data-regions]");
+  if (!regionsEl) return;
   const input = $("#riv-q");
   const count = $("[data-riv-count]");
   const empty = $("[data-riv-empty]");
@@ -310,15 +343,15 @@ function initDealers() {
     });
     count.textContent = q
       ? shown === 1
-        ? "1 rivenditore trovato"
-        : `${shown} rivenditori trovati`
+        ? t("dealers.found1")
+        : t("dealers.foundN", { n: shown })
       : "";
     empty.hidden = !(q && shown === 0);
   });
 }
 
 /* ---------- shop online ---------- */
-function initShops() {
+function renderShops() {
   const list = $("[data-shops]");
   if (!list) return;
   const groups = new Map();
@@ -341,11 +374,11 @@ function initShops() {
   list.innerHTML = [...groups.entries()]
     .map(
       ([url, ss]) => `
-    <li class="shop"><a href="${esc(url)}" target="_blank" rel="noopener" aria-label="Vai allo shop di ${esc(commonName(ss))}">
+    <li class="shop"><a href="${esc(url)}" target="_blank" rel="noopener" aria-label="${esc(t("shops.go", { name: commonName(ss) }))}">
       <span class="shop__text">
         <span class="shop__region">${esc(ss[0].regione)}</span>
         <span class="shop__name">${esc(commonName(ss))}</span>
-        <span class="shop__towns">${ss.length > 1 ? "Negozi a " : "Negozio a "}${esc(ss.map((s) => s.citta).join(" · "))}</span>
+        <span class="shop__towns">${esc(t(ss.length > 1 ? "shops.inN" : "shops.in1"))}${esc(ss.map((s) => s.citta).join(" · "))}</span>
       </span>
       <span class="shop__go">${ARROW}</span>
     </a></li>`,
@@ -379,11 +412,13 @@ function initReveal() {
 
 document.addEventListener("DOMContentLoaded", () => {
   initHeader();
+  initHeroVideo();
   initPanels();
-  initLang();
+  initBackToTop();
   initDealers();
-  initShops();
   initSearch();
+  initLang();
+  setLang(initialLang()); // traduce la pagina e disegna rivenditori, mappa e shop
   initReveal();
   const y = $("[data-year]");
   if (y) y.textContent = new Date().getFullYear();
