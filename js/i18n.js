@@ -119,11 +119,28 @@ export const I18N = {
 
     "line.Donna": "Donna",
     "line.Uomo": "Uomo",
+
+    "cookie.title": "Cookie e privacy",
+    "cookie.text": "Usiamo strumenti tecnici necessari al funzionamento del sito, come la lingua scelta. Con il tuo consenso potremmo usare anche cookie di statistica e marketing. Puoi accettare, rifiutare o scegliere per categoria; chiudendo con la X continui senza accettare.",
+    "cookie.more": "Leggi la cookie policy",
+    "cookie.close": "Chiudi e continua senza accettare",
+    "cookie.accept": "Accetta tutto",
+    "cookie.reject": "Rifiuta",
+    "cookie.customize": "Personalizza",
+    "cookie.save": "Salva le scelte",
+    "cookie.cat.tech": "Tecnici",
+    "cookie.cat.tech.d": "Sempre attivi: lingua e scelta sui cookie.",
+    "cookie.cat.stats": "Statistiche",
+    "cookie.cat.stats.d": "Ci aiutano a capire come viene usato il sito, in forma aggregata.",
+    "cookie.cat.mkt": "Marketing",
+    "cookie.cat.mkt.d": "Servono a mostrarti contenuti e pubblicità in linea con i tuoi interessi.",
+    "cookie.policy": "Cookie policy",
+    "cookie.prefs": "Preferenze cookie",
   },
 
   en: {
-    "meta.title": "MonPiz · Urban fashion pedule, made in Montebelluna",
-    "meta.desc": "MonPiz: urban fashion pedule handmade in Montebelluna, Italy, with Italian leather and Vibram soles. F/W 2026/2027 collection, authorised retailers and online shops.",
+    "meta.title": "MonPiz · Urban fashion mountain boots, made in Montebelluna",
+    "meta.desc": "MonPiz: urban fashion mountain boots handmade in Montebelluna, Italy, with Italian leather and Vibram soles. F/W 2026/2027 collection, authorised retailers and online shops.",
     "skip": "Skip to content",
 
     "aria.logo": "MonPiz, back to the top",
@@ -160,7 +177,7 @@ export const I18N = {
     "search.models": "Models",
     "search.stores": "Stores",
 
-    "hero.subtitle": "Urban fashion pedule",
+    "hero.subtitle": "Urban fashion mountain boots",
     "hero.lead": "Handmade in Montebelluna, with Italian leather and Vibram soles.",
 
     "tile.women": "Women's collection",
@@ -186,7 +203,7 @@ export const I18N = {
     "story.eyebrow": "How MonPiz began",
     "story.title": "Between tradition and innovation",
     "story.lead": "In the 1950s Montebelluna, near Treviso, became a centre of excellence for technical footwear.",
-    "story.p": "Pedule were born here, from the skill of local shoemakers who used high-quality leather and nailed soles for climbers. MonPiz brings that tradition together with innovation: the best Italian materials, more comfort, no compromise on quality.",
+    "story.p": "Mountain boots were born here, from the skill of local shoemakers who used high-quality leather and nailed soles for climbers. MonPiz brings that tradition together with innovation: the best Italian materials, more comfort, no compromise on quality.",
     "story.alt": "White MonPiz boots in front of a vintage photo of two farm women at work",
     "fact.origin": "Origin",
     "fact.since": "Since",
@@ -224,7 +241,7 @@ export const I18N = {
     "help.email": "Email",
     "help.alt": "Grey suede MonPiz boots with white laces among fallen leaves in the woods",
 
-    "ftr.claim": "Urban fashion pedule, <em>made in Montebelluna.</em>",
+    "ftr.claim": "Urban fashion mountain boots, <em>made in Montebelluna.</em>",
     "ftr.explore": "Explore",
     "ftr.contacts": "Contact",
     "ftr.collections": "Collections",
@@ -232,6 +249,23 @@ export const I18N = {
 
     "line.Donna": "Women",
     "line.Uomo": "Men",
+
+    "cookie.title": "Cookies and privacy",
+    "cookie.text": "We use technical tools the site needs to work, such as your chosen language. With your consent we may also use statistics and marketing cookies. You can accept, reject or choose by category; closing with the X continues without accepting.",
+    "cookie.more": "Read the cookie policy",
+    "cookie.close": "Close and continue without accepting",
+    "cookie.accept": "Accept all",
+    "cookie.reject": "Reject",
+    "cookie.customize": "Customise",
+    "cookie.save": "Save choices",
+    "cookie.cat.tech": "Technical",
+    "cookie.cat.tech.d": "Always on: language and cookie choice.",
+    "cookie.cat.stats": "Statistics",
+    "cookie.cat.stats.d": "Help us understand how the site is used, in aggregate form.",
+    "cookie.cat.mkt": "Marketing",
+    "cookie.cat.mkt.d": "Used to show you content and ads that match your interests.",
+    "cookie.policy": "Cookie policy",
+    "cookie.prefs": "Cookie preferences",
   },
 };
 

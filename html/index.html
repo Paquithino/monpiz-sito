@@ -135,7 +135,7 @@
 
     <!-- ===== 3. COLLEZIONI DONNA E UOMO ===== -->
     <section class="tiles" aria-label="Collezioni" data-i18n-attr="aria-label:aria.collections">
-     <a class="tile" id="donna" href="https://lookbook.monpiz.it/#donna" target="_blank" rel="noopener">
+      <a class="tile" id="donna" href="https://lookbook.monpiz.it/#donna" target="_blank" rel="noopener">
         <img src="../img/donna.webp" alt="Mani che allacciano pedule MonPiz grigie con lacci rossi tra le foglie" data-i18n-attr="alt:tile.women.alt" width="1100" height="1649" loading="lazy">
         <span class="tile__text">
           <span class="tile__title" data-i18n="tile.women">Collezione Donna</span>
@@ -143,7 +143,7 @@
           <span class="btn btn--light" data-i18n="tile.browse">Sfoglia</span>
         </span>
       </a>
-     <a class="tile" id="uomo" href="https://lookbook.monpiz.it/#uomo" target="_blank" rel="noopener">
+      <a class="tile" id="uomo" href="https://lookbook.monpiz.it/#uomo" target="_blank" rel="noopener">
         <img src="../img/uomo.webp" alt="Pedule MonPiz da uomo con lacci gialli sulla neve" data-i18n-attr="alt:tile.men.alt" width="1100" height="1649" loading="lazy">
         <span class="tile__text">
           <span class="tile__title" data-i18n="tile.men">Collezione Uomo</span>
@@ -262,10 +262,35 @@
       </div>
       <div class="ftr__bottom">
         <span>© <span data-year>2026</span> MonPiz · Made in Italy</span>
+        <span class="ftr__legal">
+          <a href="cookie-policy.html" data-i18n="cookie.policy">Cookie policy</a>
+          <a href="#cookie" data-consent-open data-i18n="cookie.prefs">Preferenze cookie</a>
+        </span>
         <a class="js-top" href="#top" data-i18n="ftr.top">Torna su ↑</a>
       </div>
     </div>
   </footer>
+
+  <!-- ===== BANNER COOKIE (gestito da js/consent.js) ===== -->
+  <section class="cookie" id="cookie" role="dialog" aria-modal="false" aria-labelledby="cookie-t" aria-describedby="cookie-d" hidden>
+    <button class="icon-btn cookie__close" type="button" data-consent-close aria-label="Chiudi e continua senza accettare" data-i18n-attr="aria-label:cookie.close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <h2 class="cookie__title" id="cookie-t" data-i18n="cookie.title">Cookie e privacy</h2>
+    <p class="cookie__text" id="cookie-d"><span data-i18n="cookie.text">Usiamo strumenti tecnici necessari al funzionamento del sito, come la lingua scelta. Con il tuo consenso potremmo usare anche cookie di statistica e marketing. Puoi accettare, rifiutare o scegliere per categoria; chiudendo con la X continui senza accettare.</span>
+      <a href="cookie-policy.html" data-i18n="cookie.more">Leggi la cookie policy</a></p>
+    <div class="cookie__prefs" data-consent-prefs hidden>
+      <label class="cookie__opt"><input type="checkbox" checked disabled> <span><b data-i18n="cookie.cat.tech">Tecnici</b> <small data-i18n="cookie.cat.tech.d">Sempre attivi: lingua e scelta sui cookie.</small></span></label>
+      <label class="cookie__opt"><input type="checkbox" id="ck-statistiche"> <span><b data-i18n="cookie.cat.stats">Statistiche</b> <small data-i18n="cookie.cat.stats.d">Ci aiutano a capire come viene usato il sito, in forma aggregata.</small></span></label>
+      <label class="cookie__opt"><input type="checkbox" id="ck-marketing"> <span><b data-i18n="cookie.cat.mkt">Marketing</b> <small data-i18n="cookie.cat.mkt.d">Servono a mostrarti contenuti e pubblicità in linea con i tuoi interessi.</small></span></label>
+      <button class="btn" type="button" data-consent-save data-i18n="cookie.save">Salva le scelte</button>
+    </div>
+    <div class="cookie__actions">
+      <button class="btn btn--solid" type="button" data-consent-reject data-i18n="cookie.reject">Rifiuta</button>
+      <button class="btn btn--solid" type="button" data-consent-accept data-i18n="cookie.accept">Accetta tutto</button>
+      <button class="cookie__link" type="button" data-consent-customize data-i18n="cookie.customize">Personalizza</button>
+    </div>
+  </section>
 
   <!-- ===== PULSANTE WHATSAPP FISSO ===== -->
   <a class="wa" href="https://wa.me/393357604522" target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp" data-i18n-attr="aria-label:aria.wa">

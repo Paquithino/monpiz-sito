@@ -5,39 +5,26 @@
 
 import { RIVENDITORI, MAPPA, MODELLI, CONTATTI } from "./data.js";
 import { applyLang, initialLang, getLang, t } from "./i18n.js";
+import { initConsent } from "./consent.js";
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
-const esc = (s) =>
-  String(s ?? "").replace(
-    /[&<>"']/g,
-    (c) =>
-      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
-        c
-      ],
-  );
-const ARROW =
-  '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg>';
-const PLUS =
-  '<svg viewBox="0 0 13 13" aria-hidden="true"><path d="M6.5 0v13M0 6.5h13"/></svg>';
-const allStores = RIVENDITORI.flatMap((r) =>
-  r.negozi.map((n) => ({ ...n, regione: r.regione })),
-);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const ARROW = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg>';
+const PLUS = '<svg viewBox="0 0 13 13" aria-hidden="true"><path d="M6.5 0v13M0 6.5h13"/></svg>';
+const allStores = RIVENDITORI.flatMap((r) => r.negozi.map((n) => ({ ...n, regione: r.regione })));
 
 /* ---------- header: trasparente sopra la foto, bianco dopo ---------- */
 function initHeader() {
   const hdr = $("[data-hdr]");
   const hero = $(".hero__photo");
   if (!hdr || !hero) return;
-  const io = new IntersectionObserver(
-    ([e]) => {
-      hdr.classList.toggle("is-solid", !e.isIntersecting);
-      document.body.classList.toggle("at-hero", e.isIntersecting); // il pulsante WhatsApp compare dopo la foto
-    },
-    {
-      rootMargin: "-64px 0px 0px 0px",
-    },
-  );
+  const io = new IntersectionObserver(([e]) => {
+    hdr.classList.toggle("is-solid", !e.isIntersecting);
+    document.body.classList.toggle("at-hero", e.isIntersecting); // il pulsante WhatsApp compare dopo la foto
+  }, {
+    rootMargin: "-64px 0px 0px 0px",
+  });
   io.observe(hero);
 }
 
@@ -53,11 +40,7 @@ function initHeroVideo() {
     v.dataset.current = kind;
     v.poster = v.dataset[`poster${kind[0].toUpperCase()}${kind.slice(1)}`];
     v.src = v.dataset[`src${kind[0].toUpperCase()}${kind.slice(1)}`];
-    if (still.matches) {
-      v.removeAttribute("autoplay");
-      v.pause();
-      return;
-    }
+    if (still.matches) { v.removeAttribute("autoplay"); v.pause(); return; }
     v.play().catch(() => {}); // se il browser blocca l'avvio resta l'immagine di copertina
   };
   pick();
@@ -65,8 +48,7 @@ function initHeroVideo() {
   // fuori dallo schermo il video si ferma, per non consumare batteria
   new IntersectionObserver(([e]) => {
     if (still.matches) return;
-    if (e.isIntersecting) v.play().catch(() => {});
-    else v.pause();
+    if (e.isIntersecting) v.play().catch(() => {}); else v.pause();
   }).observe(v);
 }
 
@@ -80,9 +62,7 @@ function initPanels() {
     if (!open) return;
     open.hidden = true;
     document.body.classList.remove("is-locked");
-    $$(`[aria-controls="${open.id}"]`).forEach((b) =>
-      b.setAttribute("aria-expanded", "false"),
-    );
+    $$(`[aria-controls="${open.id}"]`).forEach((b) => b.setAttribute("aria-expanded", "false"));
     open = null;
     opener?.focus();
   };
@@ -99,53 +79,29 @@ function initPanels() {
     setTimeout(() => (id === "cerca" ? $("#cerca-input") : first)?.focus(), 30);
   };
 
-  $$("[data-open]").forEach((b) =>
-    b.addEventListener("click", () => show(b.dataset.open, b)),
-  );
-  $$("[data-close]").forEach((b) =>
-    b.addEventListener("click", () => {
-      opener = null;
-      close();
-    }),
-  );
-  $$(".drawer, .search").forEach((p) =>
-    p.addEventListener("click", (e) => {
-      if (e.target === p) close();
-    }),
-  );
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") close();
-  });
-  panels = {
-    close: () => {
-      opener = null;
-      close();
-    },
-  };
+  $$("[data-open]").forEach((b) => b.addEventListener("click", () => show(b.dataset.open, b)));
+  $$("[data-close]").forEach((b) => b.addEventListener("click", () => { opener = null; close(); }));
+  $$(".drawer, .search").forEach((p) => p.addEventListener("click", (e) => { if (e.target === p) close(); }));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+  panels = { close: () => { opener = null; close(); } };
 }
 
 /* ---------- logo e "torna su": tornano al video in cima alla pagina ---------- */
 function initBackToTop() {
   const still = matchMedia("(prefers-reduced-motion: reduce)");
-  $$(".js-top").forEach((a) =>
-    a.addEventListener("click", (e) => {
-      e.preventDefault();
-      panels.close();
-      window.scrollTo({ top: 0, behavior: still.matches ? "auto" : "smooth" });
-      history.replaceState(null, "", location.pathname + location.search);
-      $(".hero__video")
-        ?.play()
-        .catch(() => {});
-    }),
-  );
+  $$(".js-top").forEach((a) => a.addEventListener("click", (e) => {
+    e.preventDefault();
+    panels.close();
+    window.scrollTo({ top: 0, behavior: still.matches ? "auto" : "smooth" });
+    history.replaceState(null, "", location.pathname + location.search);
+    $(".hero__video")?.play().catch(() => {});
+  }));
 }
 
 /* ---------- lingua: italiano / inglese ---------- */
 function setLang(lang) {
   applyLang(lang, { n: allStores.length });
-  $$("[data-lang]").forEach((b) =>
-    b.setAttribute("aria-current", String(b.dataset.lang === getLang())),
-  );
+  $$("[data-lang]").forEach((b) => b.setAttribute("aria-current", String(b.dataset.lang === getLang())));
   renderDealers();
   renderShops();
   renderSearch();
@@ -160,14 +116,9 @@ function initLang() {
       menu.hidden = !menu.hidden;
       btn.setAttribute("aria-expanded", String(!menu.hidden));
     });
-    document.addEventListener("click", () => {
-      menu.hidden = true;
-      btn.setAttribute("aria-expanded", "false");
-    });
+    document.addEventListener("click", () => { menu.hidden = true; btn.setAttribute("aria-expanded", "false"); });
   }
-  $$("[data-lang]").forEach((b) =>
-    b.addEventListener("click", () => setLang(b.dataset.lang)),
-  );
+  $$("[data-lang]").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
 }
 
 /* ---------- ricerca: modelli e negozi ---------- */
@@ -183,39 +134,18 @@ function initSearch() {
       out.innerHTML = `<p class="search__hint">${esc(t("search.hint"))}</p>`;
       return;
     }
-    const models = MODELLI.filter((m) =>
-      `${m.nome} ${m.linea} ${t("line." + m.linea)} ${m.materiale}`
-        .toLowerCase()
-        .includes(q),
-    );
-    const stores = allStores.filter((s) =>
-      `${s.nome} ${s.indirizzo} ${s.regione}`.toLowerCase().includes(q),
-    );
+    const models = MODELLI.filter((m) => `${m.nome} ${m.linea} ${t("line." + m.linea)} ${m.materiale}`.toLowerCase().includes(q));
+    const stores = allStores.filter((s) => `${s.nome} ${s.indirizzo} ${s.regione}`.toLowerCase().includes(q));
     let html = "";
     if (models.length) {
-      html +=
-        `<div class="search__group"><h3>${esc(t("search.models"))}</h3>` +
-        models
-          .map(
-            (m) =>
-              `<a href="${CONTATTI.lookbook}" target="_blank" rel="noopener"><span>${esc(m.nome)} · ${esc(t("line." + m.linea))}</span><small>${esc(m.materiale)}</small></a>`,
-          )
-          .join("") +
-        "</div>";
+      html += `<div class="search__group"><h3>${esc(t("search.models"))}</h3>` + models.map((m) =>
+        `<a href="${CONTATTI.lookbook}" target="_blank" rel="noopener"><span>${esc(m.nome)} · ${esc(t("line." + m.linea))}</span><small>${esc(m.materiale)}</small></a>`).join("") + "</div>";
     }
     if (stores.length) {
-      html +=
-        `<div class="search__group"><h3>${esc(t("search.stores"))}</h3>` +
-        stores
-          .map(
-            (s) =>
-              `<a href="#${s.id}" data-goto-store="${s.id}"><span>${esc(s.nome)}</span><small>${esc(s.citta)}</small></a>`,
-          )
-          .join("") +
-        "</div>";
+      html += `<div class="search__group"><h3>${esc(t("search.stores"))}</h3>` + stores.map((s) =>
+        `<a href="#${s.id}" data-goto-store="${s.id}"><span>${esc(s.nome)}</span><small>${esc(s.citta)}</small></a>`).join("") + "</div>";
     }
-    out.innerHTML =
-      html || `<p class="search__hint">${esc(t("search.none"))}</p>`;
+    out.innerHTML = html || `<p class="search__hint">${esc(t("search.none"))}</p>`;
   };
   renderSearch = render;
 
@@ -233,17 +163,9 @@ function initSearch() {
 /* ---------- rivenditori: mappa, elenco e ricerca ---------- */
 function storeHTML(s) {
   const links = [];
-  if (s.telefono)
-    links.push(
-      `<a href="tel:${s.telefono.replace(/\s+/g, "")}">${esc(t("store.tel"))} ${esc(s.telefono)}</a>`,
-    );
-  links.push(
-    `<a href="${esc(s.mappa)}" target="_blank" rel="noopener">${esc(t("store.map"))}</a>`,
-  );
-  if (s.shop)
-    links.push(
-      `<a class="is-shop" href="${esc(s.shop)}" target="_blank" rel="noopener">${esc(t("store.shop"))} ↗</a>`,
-    );
+  if (s.telefono) links.push(`<a href="tel:${s.telefono.replace(/\s+/g, "")}">${esc(t("store.tel"))} ${esc(s.telefono)}</a>`);
+  links.push(`<a href="${esc(s.mappa)}" target="_blank" rel="noopener">${esc(t("store.map"))}</a>`);
+  if (s.shop) links.push(`<a class="is-shop" href="${esc(s.shop)}" target="_blank" rel="noopener">${esc(t("store.shop"))} ↗</a>`);
   return `<li class="store" id="${s.id}" data-s="${esc(`${s.nome} ${s.indirizzo} ${s.regione}`.toLowerCase())}">
     <h4>${esc(s.nome)}</h4><address>${esc(s.indirizzo)}</address>
     <div class="store__links">${links.join("")}</div></li>`;
@@ -251,10 +173,7 @@ function storeHTML(s) {
 
 function goToStores(ids) {
   const input = $("#riv-q");
-  if (input && input.value) {
-    input.value = "";
-    input.dispatchEvent(new Event("input"));
-  }
+  if (input && input.value) { input.value = ""; input.dispatchEvent(new Event("input")); }
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
   ids.forEach((id, i) => {
     const li = document.getElementById(id);
@@ -262,11 +181,7 @@ function goToStores(ids) {
     li.closest("details").open = true;
     li.classList.add("is-flash");
     setTimeout(() => li.classList.remove("is-flash"), 2400);
-    if (i === 0)
-      li.scrollIntoView({
-        behavior: still ? "auto" : "smooth",
-        block: "center",
-      });
+    if (i === 0) li.scrollIntoView({ behavior: still ? "auto" : "smooth", block: "center" });
   });
 }
 
@@ -277,44 +192,29 @@ function renderDealers() {
   if (count) count.textContent = allStores.length;
 
   const q = ($("#riv-q")?.value || "").trim();
-  regionsEl.innerHTML = RIVENDITORI.map(
-    (r) => `
+  regionsEl.innerHTML = RIVENDITORI.map((r) => `
     <details class="region" data-region="${esc(r.regione.toLowerCase())}">
       <summary><span class="region__name">${esc(r.regione)}</span>
         <span class="region__n">${r.negozi.length} ${esc(t(r.negozi.length === 1 ? "dealers.store1" : "dealers.storeN"))}${PLUS}</span></summary>
       <ul>${r.negozi.map((n) => storeHTML({ ...n, regione: r.regione })).join("")}</ul>
-    </details>`,
-  ).join("");
+    </details>`).join("");
 
   // mappa
   const byId = Object.fromEntries(allStores.map((s) => [s.id, s]));
-  const dots = MAPPA.punti
-    .map((d) => {
-      const ss = d.ids.map((id) => byId[id]).filter(Boolean);
-      const label = ss.map((s) => `${s.nome} (${s.citta})`).join(", ");
-      if (ss.length === 1) {
-        const s = ss[0];
-        return `<a class="map__dot" href="${esc(s.shop || s.mappa)}" target="_blank" rel="noopener" aria-label="${esc(label)}"><title>${esc(label)}</title><circle r="7" cx="${d.x}" cy="${d.y}"/></a>`;
-      }
-      const group = t("map.group", { n: ss.length, list: label });
-      return `<a class="map__dot" href="#${ss[0].id}" data-ids="${ss.map((s) => s.id).join(" ")}" aria-label="${esc(group)}"><title>${esc(label)}</title><circle r="12" cx="${d.x}" cy="${d.y}"/><text x="${d.x}" y="${d.y}">${ss.length}</text></a>`;
-    })
-    .join("");
-  const cities = MAPPA.citta
-    .map(
-      (c) =>
-        `<text class="map__city" x="${c.x}" y="${c.y}" text-anchor="${c.ancora}">${esc(c.nome)}</text>`,
-    )
-    .join("");
-  $("[data-map]").innerHTML =
-    `<svg viewBox="0 0 ${MAPPA.w} ${MAPPA.h}" role="img" aria-label="${esc(t("map.aria"))}"><path class="map__sky" d="${MAPPA.cielo}"/>${cities}${dots}</svg>
+  const dots = MAPPA.punti.map((d) => {
+    const ss = d.ids.map((id) => byId[id]).filter(Boolean);
+    const label = ss.map((s) => `${s.nome} (${s.citta})`).join(", ");
+    if (ss.length === 1) {
+      const s = ss[0];
+      return `<a class="map__dot" href="${esc(s.shop || s.mappa)}" target="_blank" rel="noopener" aria-label="${esc(label)}"><title>${esc(label)}</title><circle r="7" cx="${d.x}" cy="${d.y}"/></a>`;
+    }
+    const group = t("map.group", { n: ss.length, list: label });
+    return `<a class="map__dot" href="#${ss[0].id}" data-ids="${ss.map((s) => s.id).join(" ")}" aria-label="${esc(group)}"><title>${esc(label)}</title><circle r="12" cx="${d.x}" cy="${d.y}"/><text x="${d.x}" y="${d.y}">${ss.length}</text></a>`;
+  }).join("");
+  const cities = MAPPA.citta.map((c) => `<text class="map__city" x="${c.x}" y="${c.y}" text-anchor="${c.ancora}">${esc(c.nome)}</text>`).join("");
+  $("[data-map]").innerHTML = `<svg viewBox="0 0 ${MAPPA.w} ${MAPPA.h}" role="img" aria-label="${esc(t("map.aria"))}"><path class="map__sky" d="${MAPPA.cielo}"/>${cities}${dots}</svg>
     <figcaption>${esc(t("map.caption"))}</figcaption>`;
-  $$("[data-ids]").forEach((a) =>
-    a.addEventListener("click", (e) => {
-      e.preventDefault();
-      goToStores(a.dataset.ids.split(" "));
-    }),
-  );
+  $$("[data-ids]").forEach((a) => a.addEventListener("click", (e) => { e.preventDefault(); goToStores(a.dataset.ids.split(" ")); }));
 
   if (q) $("#riv-q").dispatchEvent(new Event("input")); // riapplica un'eventuale ricerca in corso
 }
@@ -333,19 +233,12 @@ function initDealers() {
       $$(".store", g).forEach((li) => {
         const ok = !q || li.dataset.s.includes(q);
         li.hidden = !ok;
-        if (ok) {
-          any = true;
-          shown++;
-        }
+        if (ok) { any = true; shown++; }
       });
       g.hidden = Boolean(q) && !any;
       g.open = Boolean(q) && any;
     });
-    count.textContent = q
-      ? shown === 1
-        ? t("dealers.found1")
-        : t("dealers.foundN", { n: shown })
-      : "";
+    count.textContent = q ? (shown === 1 ? t("dealers.found1") : t("dealers.foundN", { n: shown })) : "";
     empty.hidden = !(q && shown === 0);
   });
 }
@@ -355,25 +248,20 @@ function renderShops() {
   const list = $("[data-shops]");
   if (!list) return;
   const groups = new Map();
-  allStores
-    .filter((s) => s.shop)
-    .forEach((s) => {
-      if (!groups.has(s.shop)) groups.set(s.shop, []);
-      groups.get(s.shop).push(s);
-    });
+  allStores.filter((s) => s.shop).forEach((s) => {
+    if (!groups.has(s.shop)) groups.set(s.shop, []);
+    groups.get(s.shop).push(s);
+  });
   const commonName = (ss) => {
     if (ss.length === 1) return ss[0].nome;
     const words = ss.map((s) => s.nome.split(" "));
     const out = [];
     for (let i = 0; i < words[0].length; i++) {
-      if (words.every((w) => w[i] === words[0][i])) out.push(words[0][i]);
-      else break;
+      if (words.every((w) => w[i] === words[0][i])) out.push(words[0][i]); else break;
     }
     return out.join(" ") || ss[0].nome;
   };
-  list.innerHTML = [...groups.entries()]
-    .map(
-      ([url, ss]) => `
+  list.innerHTML = [...groups.entries()].map(([url, ss]) => `
     <li class="shop"><a href="${esc(url)}" target="_blank" rel="noopener" aria-label="${esc(t("shops.go", { name: commonName(ss) }))}">
       <span class="shop__text">
         <span class="shop__region">${esc(ss[0].regione)}</span>
@@ -381,32 +269,17 @@ function renderShops() {
         <span class="shop__towns">${esc(t(ss.length > 1 ? "shops.inN" : "shops.in1"))}${esc(ss.map((s) => s.citta).join(" · "))}</span>
       </span>
       <span class="shop__go">${ARROW}</span>
-    </a></li>`,
-    )
-    .join("");
+    </a></li>`).join("");
 }
 
 /* ---------- comparsa dolce delle sezioni ---------- */
 function initReveal() {
-  if (
-    matchMedia("(prefers-reduced-motion: reduce)").matches ||
-    !("IntersectionObserver" in window)
-  )
-    return;
-  const els = $$(
-    ".section-head, .tile__text, .details .wrap, .story__text, .dealers__intro, .shops__head, .help__text",
-  );
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
+  const els = $$(".section-head, .tile__text, .details .wrap, .story__text, .dealers__intro, .shops__head, .help__text");
   els.forEach((el) => el.classList.add("reveal"));
-  const io = new IntersectionObserver(
-    (entries) =>
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add("is-in");
-          io.unobserve(e.target);
-        }
-      }),
-    { rootMargin: "0px 0px -10% 0px" },
-  );
+  const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
+  }), { rootMargin: "0px 0px -10% 0px" });
   els.forEach((el) => io.observe(el));
 }
 
@@ -419,6 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initSearch();
   initLang();
   setLang(initialLang()); // traduce la pagina e disegna rivenditori, mappa e shop
+  initConsent();          // banner cookie al primo accesso
   initReveal();
   const y = $("[data-year]");
   if (y) y.textContent = new Date().getFullYear();
