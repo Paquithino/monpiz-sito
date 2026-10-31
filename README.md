@@ -1,6 +1,6 @@
 # Sito MonPiz — versione 2026
 
-Sito in HTML, CSS e JavaScript puro, senza framework. P
+Sito in HTML, CSS e JavaScript puro, senza framework. 
 
 
 
