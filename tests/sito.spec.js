@@ -296,6 +296,27 @@ test.describe("Rivenditori", () => {
 });
 
 // -------------------------------------------------------------------------------------------
+test.describe("Guida alle taglie", () => {
+  test("mostra la tabella e consiglia la taglia giusta dalla lunghezza del piede", async ({ page }) => {
+    await openHome(page);
+    await expect(page.locator(".sizes__cell")).toHaveCount(13);
+    const input = page.locator("#piede-cm");
+    const out = page.locator("[data-sizes-out]");
+    const go = page.locator("[data-sizes-form] button");
+    await input.fill("25,3"); await go.click();           // 25,3 + 0,5 = 25,8 cm → taglia 41
+    await expect(out).toContainText("41");
+    await expect(page.locator(".sizes__cell.is-match")).toHaveAttribute("data-size", "41");
+    await input.fill("22"); await go.click();              // 22,5 cm → taglia 36
+    await expect(page.locator(".sizes__cell.is-match")).toHaveAttribute("data-size", "36");
+    await input.fill("32"); await go.click();              // oltre la 47
+    await expect(out).toContainText("47");
+    await expect(page.locator(".sizes__cell.is-match")).toHaveCount(0);
+    await input.fill("abc"); await go.click();
+    await expect(out).toContainText("25,5");
+  });
+});
+
+// -------------------------------------------------------------------------------------------
 test.describe("Shop online", () => {
   test("elenca gli shop e ogni riquadro apre lo shop in una nuova scheda", async ({ page }) => {
     await openHome(page);

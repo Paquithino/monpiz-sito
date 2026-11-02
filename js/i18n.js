@@ -10,9 +10,8 @@ export const LANGS = ["it", "en"];
 export const I18N = {
   it: {
     "meta.title": "MonPiz · Pedule urban fashion, made in Montebelluna",
-    "meta.desc":
-      "MonPiz: pedule urban fashion fatte a mano a Montebelluna con pelli italiane e suole Vibram. Collezione F/W 2026/2027, rivenditori autorizzati e shop online.",
-    skip: "Vai al contenuto",
+    "meta.desc": "MonPiz: pedule urban fashion fatte a mano a Montebelluna con pelli italiane e suole Vibram. Collezione F/W 2026/2027, rivenditori autorizzati e shop online.",
+    "skip": "Vai al contenuto",
 
     "aria.logo": "MonPiz, torna all'inizio",
     "aria.menuOpen": "Apri il menu",
@@ -25,8 +24,7 @@ export const I18N = {
     "aria.main": "Principale",
     "aria.sections": "Sezioni",
     "aria.collections": "Collezioni",
-    "aria.video":
-      "Video delle pedule MonPiz: modelli e dettagli della collezione",
+    "aria.video": "Video delle pedule MonPiz: modelli e dettagli della collezione",
     "aria.wa": "Scrivici su WhatsApp",
 
     "nav.women": "Donna",
@@ -44,30 +42,25 @@ export const I18N = {
 
     "search.label": "Cerca un modello, un negozio o una città",
     "search.placeholder": "Modello, negozio o città",
-    "search.hint": 'Prova con "Cortina", "Trento" o il nome di un negozio.',
+    "search.hint": "Prova con \"Cortina\", \"Trento\" o il nome di un negozio.",
     "search.none": "Nessun risultato. Scrivici su WhatsApp, ti aiutiamo noi.",
     "search.models": "Modelli",
     "search.stores": "Negozi",
 
     "hero.subtitle": "Pedule urban fashion",
-    "hero.lead":
-      "Lavorate a mano a Montebelluna, tra pelli italiane e suole Vibram.",
+    "hero.lead": "Lavorate a mano a Montebelluna, tra pelli italiane e suole Vibram.",
 
     "tile.women": "Collezione Donna",
-    "tile.women.sub":
-      "Cortina, Falcade, Lagazuoi, Ortisei, Orma, Urban e Anfibio",
-    "tile.women.alt":
-      "Mani che allacciano pedule MonPiz grigie con lacci rossi tra le foglie",
+    "tile.women.sub": "Cortina, Falcade, Lagazuoi, Ortisei, Orma, Urban e Anfibio",
+    "tile.women.alt": "Mani che allacciano pedule MonPiz grigie con lacci rossi tra le foglie",
     "tile.men": "Collezione Uomo",
-    "tile.men.sub":
-      "Cortina, Falcade, Lussari, Corvara, Lagazuoi, Grostè e City",
+    "tile.men.sub": "Cortina, Falcade, Lussari, Corvara, Lagazuoi, Grostè e City",
     "tile.men.alt": "Pedule MonPiz da uomo con lacci gialli sulla neve",
     "tile.browse": "Sfoglia",
 
-    "det.eyebrow": "Lavorate a Montebelluna",
+    "det.eyebrow": "Fatte a Montebelluna",
     "det.title": "Qualità nei dettagli",
-    "det.alt":
-      "Dettaglio della pedula MonPiz Grostè in pelle verde, con collarino imbottito, ganci in metallo e lacci rossi",
+    "det.alt": "Dettaglio della pedula MonPiz Grostè in pelle verde, con collarino imbottito, ganci in metallo e lacci rossi",
     "det.upper": "Tomaia",
     "det.upper.p": "in pelle di <b>vitello conciato</b> in Toscana",
     "det.lining": "Fodera",
@@ -79,12 +72,9 @@ export const I18N = {
 
     "story.eyebrow": "Come nasce MonPiz",
     "story.title": "Tra tradizione e innovazione",
-    "story.lead":
-      "Negli anni '50 Montebelluna, in provincia di Treviso, diventa un centro di eccellenza per le calzature tecniche.",
-    "story.p":
-      "Le pedule nascono qui, dall'abilità dei calzolai locali che univano pelli di altissima qualità a suole chiodate per gli alpinisti. MonPiz ne raccoglie l'eredità e la rivisita con colori vivaci e un gusto urban fashion: l'eccellenza e il comfort della tradizione alpina, ripensati per lo stile di tutti i giorni.",
-    "story.alt":
-      "Pedule MonPiz bianche davanti a una foto d'epoca di due contadine al lavoro",
+    "story.lead": "Negli anni '50 Montebelluna, in provincia di Treviso, diventa un centro di eccellenza per le calzature tecniche.",
+    "story.p": "Le pedule nascono qui, dall'abilità dei calzolai locali che univano pelli di altissima qualità a suole chiodate per gli alpinisti. MonPiz ne raccoglie l'eredità e la rivisita con colori vivaci e un gusto urban fashion: l'eccellenza e il comfort della tradizione alpina, ripensati per lo stile di tutti i giorni.",
+    "story.alt": "Pedule MonPiz bianche davanti a una foto d'epoca di due contadine al lavoro",
     "fact.origin": "Origine",
     "fact.since": "Dal",
     "fact.since.v": "2020",
@@ -92,19 +82,16 @@ export const I18N = {
 
     "dealers.eyebrow": "Dove trovarci",
     "dealers.title": "Una rete di <span data-count>{n}</span> negozi",
-    "dealers.intro":
-      "I rivenditori autorizzati MonPiz, regione per regione. Tocca un punto sulla mappa o cerca il negozio più vicino a te.",
+    "dealers.intro": "I rivenditori autorizzati MonPiz, regione per regione. Tocca un punto sulla mappa o cerca il negozio più vicino a te.",
     "dealers.label": "Cerca un rivenditore",
     "dealers.placeholder": "Città, negozio o regione",
-    "dealers.empty":
-      "Nessun rivenditore trovato. Prova con un'altra città o scrivici su WhatsApp.",
+    "dealers.empty": "Nessun rivenditore trovato. Prova con un'altra città o scrivici su WhatsApp.",
     "dealers.found1": "1 rivenditore trovato",
     "dealers.foundN": "{n} rivenditori trovati",
     "dealers.store1": "negozio",
     "dealers.storeN": "negozi",
     "map.aria": "Mappa dei rivenditori MonPiz",
-    "map.caption":
-      "I punti singoli aprono lo shop o Google Maps; i numeri raggruppano i negozi vicini.",
+    "map.caption": "I punti singoli aprono lo shop o Google Maps; i numeri raggruppano i negozi vicini.",
     "map.group": "{n} negozi: {list}",
     "store.tel": "Tel.",
     "store.map": "Mappa",
@@ -112,21 +99,31 @@ export const I18N = {
 
     "shops.eyebrow": "Acquista online",
     "shops.title": "Shop online",
-    "shops.intro":
-      "Ogni negozio apre il suo shop, già filtrato sui modelli MonPiz.",
-    "shops.alt":
-      "Pedule MonPiz in pelle martellata bianca su un ceppo di legno",
+    "shops.intro": "Ogni negozio apre il suo shop, già filtrato sui modelli MonPiz.",
+    "shops.alt": "Pedule MonPiz in pelle martellata bianca su un ceppo di legno",
     "shops.in1": "Negozio a ",
     "shops.inN": "Negozi a ",
     "shops.go": "Vai allo shop di {name}",
 
     "help.title": "Dubbi sulla taglia?",
-    "help.p":
-      "Scrivici: ti aiutiamo a scegliere il modello giusto e il negozio più vicino.",
+    "help.p": "Scrivici: ti aiutiamo a scegliere il modello giusto e il negozio più vicino.",
     "help.wa": "Scrivici su WhatsApp",
     "help.email": "Email",
-    "help.alt":
-      "Pedule MonPiz in suede grigio con lacci bianchi tra le foglie, nel bosco",
+    "help.alt": "Pedule MonPiz in suede grigio con lacci bianchi tra le foglie, nel bosco",
+    "sizes.title": "Guida alle taglie",
+    "sizes.step1": "Appoggia il piede su un foglio bianco e traccia il contorno con una penna.",
+    "sizes.step2": "Misura dal tallone alla punta del dito più lungo e aggiungi 0,5 cm.",
+    "sizes.step3": "Scegli la taglia nella tabella: se sei a metà tra due misure, prendi quella più grande.",
+    "sizes.label": "Lunghezza del piede (cm)",
+    "sizes.placeholder": "es. 25,5",
+    "sizes.go": "Trova la taglia",
+    "sizes.result": "Ti consigliamo la taglia <strong>{n}</strong>",
+    "sizes.invalid": "Scrivi la lunghezza del piede in centimetri, ad esempio 25,5.",
+    "sizes.tooBig": "La misura supera la taglia 47: scrivici e troviamo una soluzione.",
+    "sizes.table": "Tabella taglie: taglia italiana e lunghezza del piede",
+    "sizes.size": "Taglia",
+    "sizes.legend": "Taglia · lunghezza del piede in cm",
+    "sizes.note": "Misure indicative. Se hai dubbi scrivici: ti aiutiamo a scegliere.",
 
     "ftr.claim": "Pedule urban fashion, <em>made in Montebelluna.</em>",
     "ftr.explore": "Esplora",
@@ -138,8 +135,7 @@ export const I18N = {
     "line.Uomo": "Uomo",
 
     "cookie.title": "Cookie e privacy",
-    "cookie.text":
-      "Usiamo strumenti tecnici necessari al funzionamento del sito, come la lingua scelta. Con il tuo consenso potremmo usare anche cookie di statistica e marketing. Puoi accettare, rifiutare o scegliere per categoria; chiudendo con la X continui senza accettare.",
+    "cookie.text": "Usiamo strumenti tecnici necessari al funzionamento del sito, come la lingua scelta. Con il tuo consenso potremmo usare anche cookie di statistica e marketing. Puoi accettare, rifiutare o scegliere per categoria; chiudendo con la X continui senza accettare.",
     "cookie.more": "Leggi la cookie policy",
     "cookie.close": "Chiudi e continua senza accettare",
     "cookie.accept": "Accetta tutto",
@@ -149,20 +145,17 @@ export const I18N = {
     "cookie.cat.tech": "Tecnici",
     "cookie.cat.tech.d": "Sempre attivi: lingua e scelta sui cookie.",
     "cookie.cat.stats": "Statistiche",
-    "cookie.cat.stats.d":
-      "Ci aiutano a capire come viene usato il sito, in forma aggregata.",
+    "cookie.cat.stats.d": "Ci aiutano a capire come viene usato il sito, in forma aggregata.",
     "cookie.cat.mkt": "Marketing",
-    "cookie.cat.mkt.d":
-      "Servono a mostrarti contenuti e pubblicità in linea con i tuoi interessi.",
+    "cookie.cat.mkt.d": "Servono a mostrarti contenuti e pubblicità in linea con i tuoi interessi.",
     "cookie.policy": "Cookie policy",
     "cookie.prefs": "Preferenze cookie",
   },
 
   en: {
     "meta.title": "MonPiz · Urban fashion mountain boots, made in Montebelluna",
-    "meta.desc":
-      "MonPiz: urban fashion mountain boots handmade in Montebelluna, Italy, with Italian leather and Vibram soles. F/W 2026/2027 collection, authorised retailers and online shops.",
-    skip: "Skip to content",
+    "meta.desc": "MonPiz: urban fashion mountain boots handmade in Montebelluna, Italy, with Italian leather and Vibram soles. F/W 2026/2027 collection, authorised retailers and online shops.",
+    "skip": "Skip to content",
 
     "aria.logo": "MonPiz, back to the top",
     "aria.menuOpen": "Open the menu",
@@ -175,8 +168,7 @@ export const I18N = {
     "aria.main": "Main",
     "aria.sections": "Sections",
     "aria.collections": "Collections",
-    "aria.video":
-      "Video of MonPiz boots: models and details from the collection",
+    "aria.video": "Video of MonPiz boots: models and details from the collection",
     "aria.wa": "Message us on WhatsApp",
 
     "nav.women": "Women",
@@ -194,30 +186,25 @@ export const I18N = {
 
     "search.label": "Search for a model, a store or a town",
     "search.placeholder": "Model, store or town",
-    "search.hint": 'Try "Cortina", "Trento" or the name of a store.',
+    "search.hint": "Try \"Cortina\", \"Trento\" or the name of a store.",
     "search.none": "No results. Message us on WhatsApp and we'll help you.",
     "search.models": "Models",
     "search.stores": "Stores",
 
     "hero.subtitle": "Urban fashion mountain boots",
-    "hero.lead":
-      "Handmade in Montebelluna, with Italian leather and Vibram soles.",
+    "hero.lead": "Handcrafted in Montebelluna, with Italian leather and Vibram soles.",
 
     "tile.women": "Women's collection",
-    "tile.women.sub":
-      "Cortina, Falcade, Lagazuoi, Ortisei, Orma, Urban and Anfibio",
-    "tile.women.alt":
-      "Hands lacing grey MonPiz boots with red laces among autumn leaves",
+    "tile.women.sub": "Cortina, Falcade, Lagazuoi, Ortisei, Orma, Urban and Anfibio",
+    "tile.women.alt": "Hands lacing grey MonPiz boots with red laces among autumn leaves",
     "tile.men": "Men's collection",
-    "tile.men.sub":
-      "Cortina, Falcade, Lussari, Corvara, Lagazuoi, Grostè and City",
+    "tile.men.sub": "Cortina, Falcade, Lussari, Corvara, Lagazuoi, Grostè and City",
     "tile.men.alt": "Men's MonPiz boots with yellow laces in the snow",
     "tile.browse": "Browse",
 
     "det.eyebrow": "Made in Montebelluna",
     "det.title": "Quality in the details",
-    "det.alt":
-      "Close-up of the MonPiz Grostè boot in green leather, with padded collar, metal hooks and red laces",
+    "det.alt": "Close-up of the MonPiz Grostè boot in green leather, with padded collar, metal hooks and red laces",
     "det.upper": "Upper",
     "det.upper.p": "<b>calfskin</b> tanned in Tuscany",
     "det.lining": "Lining",
@@ -229,32 +216,26 @@ export const I18N = {
 
     "story.eyebrow": "How MonPiz began",
     "story.title": "Between tradition and innovation",
-    "story.lead":
-      "In the 1950s Montebelluna, near Treviso, became a centre of excellence for technical footwear.",
-    "story.p":
-      "Mountain boots were born here, from the skill of local shoemakers who used high-quality leather and nailed soles for climbers. MonPiz brings that tradition together with innovation: the best Italian materials, more comfort, no compromise on quality.",
-    "story.alt":
-      "White MonPiz boots in front of a vintage photo of two farm women at work",
+    "story.lead": "In the 1950s Montebelluna, near Treviso, became a centre of excellence for technical footwear.",
+    "story.p": "Mountain boots were born here, from the skill of local shoemakers who paired top-quality leather with nailed soles for climbers. MonPiz carries on that legacy and reinterprets it with bold colours and an urban fashion flair: the excellence and comfort of the Alpine tradition, rethought for everyday style.",
+    "story.alt": "White MonPiz boots in front of a vintage photo of two farm women at work",
     "fact.origin": "Origin",
     "fact.since": "Since",
-    "fact.since.v": "The 1950s",
+    "fact.since.v": "2020",
     "fact.sole": "Sole",
 
     "dealers.eyebrow": "Where to find us",
     "dealers.title": "A network of <span data-count>{n}</span> stores",
-    "dealers.intro":
-      "Authorised MonPiz retailers, region by region. Tap a point on the map or search for the store nearest to you.",
+    "dealers.intro": "Authorised MonPiz retailers, region by region. Tap a point on the map or search for the store nearest to you.",
     "dealers.label": "Find a retailer",
     "dealers.placeholder": "Town, store or region",
-    "dealers.empty":
-      "No retailers found. Try another town or message us on WhatsApp.",
+    "dealers.empty": "No retailers found. Try another town or message us on WhatsApp.",
     "dealers.found1": "1 retailer found",
     "dealers.foundN": "{n} retailers found",
     "dealers.store1": "store",
     "dealers.storeN": "stores",
     "map.aria": "Map of MonPiz retailers",
-    "map.caption":
-      "Single points open the online shop or Google Maps; numbers group nearby stores.",
+    "map.caption": "Single points open the online shop or Google Maps; numbers group nearby stores.",
     "map.group": "{n} stores: {list}",
     "store.tel": "Tel.",
     "store.map": "Map",
@@ -262,20 +243,31 @@ export const I18N = {
 
     "shops.eyebrow": "Buy online",
     "shops.title": "Shop online",
-    "shops.intro":
-      "Each store opens its own online shop, already filtered for MonPiz models.",
+    "shops.intro": "Each store opens its own online shop, already filtered for MonPiz models.",
     "shops.alt": "White hammered-leather MonPiz boots on a tree stump",
     "shops.in1": "Store in ",
     "shops.inN": "Stores in ",
     "shops.go": "Go to the {name} online shop",
 
     "help.title": "Not sure about your size?",
-    "help.p":
-      "Message us: we'll help you choose the right model and the nearest store.",
+    "help.p": "Message us: we'll help you choose the right model and the nearest store.",
     "help.wa": "Message us on WhatsApp",
     "help.email": "Email",
-    "help.alt":
-      "Grey suede MonPiz boots with white laces among fallen leaves in the woods",
+    "help.alt": "Grey suede MonPiz boots with white laces among fallen leaves in the woods",
+    "sizes.title": "Size guide",
+    "sizes.step1": "Place your foot on a sheet of white paper and trace its outline with a pen.",
+    "sizes.step2": "Measure from the heel to the tip of your longest toe and add 0.5 cm.",
+    "sizes.step3": "Find your size in the chart: if you are between two sizes, take the larger one.",
+    "sizes.label": "Foot length (cm)",
+    "sizes.placeholder": "e.g. 25.5",
+    "sizes.go": "Find my size",
+    "sizes.result": "We recommend Italian size <strong>{n}</strong>",
+    "sizes.invalid": "Enter your foot length in centimetres, for example 25.5.",
+    "sizes.tooBig": "Your measurement is above size 47: message us and we'll find a solution.",
+    "sizes.table": "Size chart: Italian size and foot length",
+    "sizes.size": "Size",
+    "sizes.legend": "Italian size · foot length in cm",
+    "sizes.note": "Sizes are indicative. If in doubt, message us and we'll help you choose.",
 
     "ftr.claim": "Urban fashion mountain boots, <em>made in Montebelluna.</em>",
     "ftr.explore": "Explore",
@@ -287,8 +279,7 @@ export const I18N = {
     "line.Uomo": "Men",
 
     "cookie.title": "Cookies and privacy",
-    "cookie.text":
-      "We use technical tools the site needs to work, such as your chosen language. With your consent we may also use statistics and marketing cookies. You can accept, reject or choose by category; closing with the X continues without accepting.",
+    "cookie.text": "We use technical tools the site needs to work, such as your chosen language. With your consent we may also use statistics and marketing cookies. You can accept, reject or choose by category; closing with the X continues without accepting.",
     "cookie.more": "Read the cookie policy",
     "cookie.close": "Close and continue without accepting",
     "cookie.accept": "Accept all",
@@ -298,11 +289,9 @@ export const I18N = {
     "cookie.cat.tech": "Technical",
     "cookie.cat.tech.d": "Always on: language and cookie choice.",
     "cookie.cat.stats": "Statistics",
-    "cookie.cat.stats.d":
-      "Help us understand how the site is used, in aggregate form.",
+    "cookie.cat.stats.d": "Help us understand how the site is used, in aggregate form.",
     "cookie.cat.mkt": "Marketing",
-    "cookie.cat.mkt.d":
-      "Used to show you content and ads that match your interests.",
+    "cookie.cat.mkt.d": "Used to show you content and ads that match your interests.",
     "cookie.policy": "Cookie policy",
     "cookie.prefs": "Cookie preferences",
   },

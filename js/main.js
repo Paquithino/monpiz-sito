@@ -3,7 +3,7 @@
    mappa e rivenditori, shop online, comparsa delle sezioni.
    I testi stanno in i18n.js (italiano e inglese). */
 
-import { RIVENDITORI, MAPPA, MODELLI, CONTATTI } from "./data.js";
+import { RIVENDITORI, MAPPA, MODELLI, CONTATTI, TAGLIE, MARGINE_CM } from "./data.js";
 import { applyLang, initialLang, getLang, t } from "./i18n.js";
 import { initConsent } from "./consent.js";
 
@@ -105,6 +105,7 @@ function setLang(lang) {
   renderDealers();
   renderShops();
   renderSearch();
+  renderSizes();
 }
 
 function initLang() {
@@ -119,6 +120,43 @@ function initLang() {
     document.addEventListener("click", () => { menu.hidden = true; btn.setAttribute("aria-expanded", "false"); });
   }
   $$("[data-lang]").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
+}
+
+/* ---------- guida alle taglie ---------- */
+let sizeChoice = null; // ultima taglia consigliata
+let sizeMsg = "";       // ultimo messaggio mostrato (chiave di traduzione), per cambiare lingua
+const cmText = (n) => n.toLocaleString(getLang() === "en" ? "en-GB" : "it-IT", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+function renderSizes() {
+  const grid = $("[data-sizes-grid]");
+  if (!grid) return;
+  grid.innerHTML = TAGLIE.map((tg) =>
+    `<li class="sizes__cell${tg.it === sizeChoice ? " is-match" : ""}" data-size="${tg.it}">` +
+    `<span class="sizes__it"><span class="sr-only">${esc(t("sizes.size"))} </span>${tg.it}</span>` +
+    `<span class="sizes__cm">${cmText(tg.cm)}<span class="sr-only"> cm</span></span></li>`).join("");
+  const out = $("[data-sizes-out]");
+  if (out) out.innerHTML = sizeMsg === "sizes.result" ? t(sizeMsg, { n: sizeChoice }) : sizeMsg ? esc(t(sizeMsg)) : "";
+}
+
+/* misura del piede + margine → prima taglia che la contiene */
+function sizeFor(footCm) {
+  const need = footCm + MARGINE_CM;
+  return TAGLIE.find((tg) => tg.cm >= need - 0.05) ?? null;
+}
+
+function initSizes() {
+  const form = $("[data-sizes-form]");
+  if (!form) return;
+  const input = $("#piede-cm", form);
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const v = parseFloat(String(input.value).replace(",", "."));
+    const tg = v >= 15 && v <= 40 ? sizeFor(v) : null;
+    sizeChoice = tg ? tg.it : null;
+    sizeMsg = !(v >= 15 && v <= 40) ? "sizes.invalid" : tg ? "sizes.result" : "sizes.tooBig";
+    renderSizes();
+    if (tg) $(`[data-size="${tg.it}"]`)?.scrollIntoView({ block: "nearest", inline: "center" });
+  });
 }
 
 /* ---------- ricerca: modelli e negozi ---------- */
@@ -291,6 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initDealers();
   initSearch();
   initLang();
+  initSizes();
   setLang(initialLang()); // traduce la pagina e disegna rivenditori, mappa e shop
   initConsent();          // banner cookie al primo accesso
   initReveal();

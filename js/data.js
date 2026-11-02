@@ -353,3 +353,13 @@ export const MODELLI = [
 ];
 
 export const CONTATTI = { email: "monpiz@monpiz.it", telefono: "+39 335 760 4522", whatsapp: "393357604522", instagram: "https://www.instagram.com/monpiz_/", lookbook: "https://lookbook.monpiz.it/" };
+
+/* Guida alle taglie: lunghezza del piede (cm) per ogni taglia italiana,
+   dalla tabella "Taglie & misure" (regolo del cartellino). */
+export const TAGLIE = [
+  { it: 35, cm: 22.3 }, { it: 36, cm: 23.0 }, { it: 37, cm: 23.7 }, { it: 38, cm: 24.4 },
+  { it: 39, cm: 25.0 }, { it: 40, cm: 25.7 }, { it: 41, cm: 26.4 }, { it: 42, cm: 27.1 },
+  { it: 43, cm: 27.8 }, { it: 44, cm: 28.5 }, { it: 45, cm: 29.1 }, { it: 46, cm: 29.8 },
+  { it: 47, cm: 30.5 },
+];
+export const MARGINE_CM = 0.5; // da aggiungere alla misura del piede
