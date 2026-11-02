@@ -57,7 +57,7 @@ jobs:
       - name: Prepara solo i file del sito
         run: |
           mkdir _site
-          cp index.html cookie-policy.html 404.html robots.txt sitemap.xml _site/
+          cp index.html cookie-policy.html 404.html robots.txt sitemap.xml favicon.ico _site/
           cp -r css js img video _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
