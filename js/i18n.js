@@ -77,7 +77,7 @@ export const I18N = {
     "story.alt": "Pedule MonPiz bianche davanti a una foto d'epoca di due contadine al lavoro",
     "fact.origin": "Origine",
     "fact.since": "Dal",
-    "fact.since.v": "2020",
+    "fact.since.v": "2022",
     "fact.sole": "Suola",
 
     "dealers.eyebrow": "Dove trovarci",
@@ -123,7 +123,7 @@ export const I18N = {
     "sizes.table": "Tabella taglie: taglia italiana e lunghezza del piede",
     "sizes.size": "Taglia",
     "sizes.legend": "Taglia · lunghezza del piede in cm",
-    "sizes.note": "Misure indicative. Se hai dubbi scrivici: ti aiutiamo a scegliere.",
+    "sizes.note": "Le misure sono indicative.",
 
     "ftr.claim": "Pedule urban fashion, <em>made in Montebelluna.</em>",
     "ftr.explore": "Esplora",
@@ -221,7 +221,7 @@ export const I18N = {
     "story.alt": "White MonPiz boots in front of a vintage photo of two farm women at work",
     "fact.origin": "Origin",
     "fact.since": "Since",
-    "fact.since.v": "2020",
+    "fact.since.v": "2022",
     "fact.sole": "Sole",
 
     "dealers.eyebrow": "Where to find us",
@@ -267,7 +267,7 @@ export const I18N = {
     "sizes.table": "Size chart: Italian size and foot length",
     "sizes.size": "Size",
     "sizes.legend": "Italian size · foot length in cm",
-    "sizes.note": "Sizes are indicative. If in doubt, message us and we'll help you choose.",
+    "sizes.note": "Sizes are indicative.",
 
     "ftr.claim": "Urban fashion mountain boots, <em>made in Montebelluna.</em>",
     "ftr.explore": "Explore",

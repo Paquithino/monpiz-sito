@@ -370,6 +370,7 @@ ul { list-style: none; }
 .sizes__cell.is-match { background: var(--olive-light); }
 .sizes__cell.is-match .sizes__it, .sizes__cell.is-match .sizes__cm { color: var(--ink); }
 .sizes__note { margin: 0; font-size: 0.85rem; color: var(--on-dark-muted); }
+.sizes__contact { display: grid; gap: 0.6rem; margin-top: 1rem; padding-top: 1.5rem; border-top: 1px solid rgba(255, 253, 248, 0.18); }
 
 /* =============================================================================
    FOOTER
@@ -554,6 +555,7 @@ body.has-cookie .wa { opacity: 0; pointer-events: none; }
   .sizes__steps { font-size: 1.05rem; }
   .help .sizes__legend { font-size: 0.7rem; }
   .help .sizes__note { font-size: 0.95rem; }
+  .sizes__contact { gap: 1rem; }
   .help .h2 { font-size: clamp(3rem, 4.6vw, 4.75rem); }
   .help p { font-size: 1.125rem; }
 
