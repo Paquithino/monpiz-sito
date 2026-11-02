@@ -15,7 +15,7 @@ il layout per computer c'è ma va rifinito nella seconda fase.
    ```bash
    npm run dev
    ```
-   Si apre il browser su `http://localhost:5173/html/index.html`. Ogni volta che salvi un file
+   Si apre il browser su `http://localhost:5173/`. Ogni volta che salvi un file
    la pagina si aggiorna da sola. Per vederlo sul telefono, collegato alla stessa rete Wi-Fi,
    usa l'indirizzo "Network" che compare nel terminale.
 5. Per fermarlo: `Ctrl + C` nel terminale.
@@ -26,8 +26,8 @@ perché il JavaScript usa i moduli: serve il server di `npm run dev`.
 ## Struttura
 
 ```
-html/index.html          la pagina (Home)
-html/cookie-policy.html  informativa cookie (italiano e inglese)
+index.html               la pagina (Home)
+cookie-policy.html       informativa cookie (italiano e inglese)
 css/main.css      tutto lo stile: colori e caratteri in cima, poi una sezione per blocco,
                   in fondo le regole per tablet (640px) e computer (1024px)
 js/main.js        menu, ricerca, lingua, carosello, mappa e rivenditori, shop online
@@ -87,5 +87,5 @@ servirebbe il consenso, ma il banner è già attivo e pronto. Se si aggiungono s
 <script type="text/plain" data-consent="statistiche" src="https://..."></script>
 ```
 
-e va aggiunto alla tabella in `html/cookie-policy.html`. Se cambiano i servizi, aumentare `CONSENT_VERSION`
+e va aggiunto alla tabella in `cookie-policy.html`. Se cambiano i servizi, aumentare `CONSENT_VERSION`
 in `js/consent.js`: il banner ricomparirà a tutti.

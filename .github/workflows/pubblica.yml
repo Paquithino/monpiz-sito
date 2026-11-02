@@ -1,0 +1,67 @@
+# Pubblica il sito su GitHub Pages a ogni push sul ramo master.
+# 1) prova il sito con i test automatici  2) se passano, pubblica solo i file del sito.
+# Si può anche avviare a mano da GitHub: Actions → "Pubblica il sito" → Run workflow
+# (con l'opzione per saltare i test in caso di emergenza).
+name: Pubblica il sito
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+    inputs:
+      salta_test:
+        description: "Pubblica senza eseguire i test (solo emergenze)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  test:
+    if: ${{ !inputs.salta_test }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test
+        env:
+          CI: "1"
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: rapporto-test
+          path: playwright-report/
+          retention-days: 7
+
+  pubblica:
+    needs: test
+    if: ${{ always() && (needs.test.result == 'success' || needs.test.result == 'skipped') }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepara solo i file del sito
+        run: |
+          mkdir _site
+          cp index.html cookie-policy.html 404.html robots.txt sitemap.xml _site/
+          cp -r css js img video _site/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4

@@ -1,5 +1,5 @@
 // Funzioni comuni ai test.
-export const HOME = "/html/index.html";
+export const HOME = "/index.html";
 export const WHATSAPP = "https://wa.me/393357604522";
 export const EMAIL = "mailto:monpiz@monpiz.it";
 export const PHONE = "tel:+393357604522";

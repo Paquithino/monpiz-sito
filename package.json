@@ -5,7 +5,7 @@
   "description": "Nuovo sito MonPiz: HTML, CSS e JavaScript senza framework.",
   "type": "module",
   "scripts": {
-    "dev": "vite --host --open /html/index.html",
+    "dev": "vite --host --open /",
     "preview": "vite preview --host",
     "test": "playwright test",
     "test:ui": "playwright test --ui",

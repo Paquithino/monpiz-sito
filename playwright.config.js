@@ -34,7 +34,7 @@ export default defineConfig({
   },
   webServer: {
     command: "npx vite --port 4173 --strictPort",
-    url: "http://localhost:4173/html/index.html",
+    url: "http://localhost:4173/index.html",
     reuseExistingServer: !process.env.CI,
   },
   projects: [

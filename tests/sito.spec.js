@@ -415,7 +415,7 @@ test.describe("Cookie (Linee guida Garante Privacy 2021)", () => {
 
   test("gli script di statistica partono solo dopo il consenso", async ({ page }) => {
     // aggiunge alla pagina uno script finto in attesa di consenso
-    await page.route("**/html/index.html*", async (route) => {
+    await page.route("**/index.html*", async (route) => {
       const res = await route.fetch();
       const body = (await res.text()).replace("</body>",
         '<script type="text/plain" data-consent="statistiche">window.__statistiche = true;</script></body>');
@@ -432,7 +432,7 @@ test.describe("Cookie (Linee guida Garante Privacy 2021)", () => {
 
   test("la cookie policy si apre, elenca gli strumenti usati e torna al sito", async ({ page }) => {
     await openHome(page);
-    const res = await page.request.get("/html/cookie-policy.html");
+    const res = await page.request.get("/cookie-policy.html");
     expect(res.status()).toBe(200);
     await page.locator('.ftr a[href="cookie-policy.html"]').click();
     await expect(page.locator('article[lang="it"] h1')).toHaveText("Cookie policy");
