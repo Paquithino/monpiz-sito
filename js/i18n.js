@@ -58,7 +58,6 @@ export const I18N = {
     "tile.men.alt": "Pedule MonPiz da uomo con lacci gialli sulla neve",
     "tile.browse": "Sfoglia",
 
-    "det.eyebrow": "Fatte a Montebelluna",
     "det.title": "Qualità nei dettagli",
     "det.alt": "Dettaglio della pedula MonPiz Grostè in pelle verde, con collarino imbottito, ganci in metallo e lacci rossi",
     "det.upper": "Tomaia",
@@ -202,7 +201,6 @@ export const I18N = {
     "tile.men.alt": "Men's MonPiz boots with yellow laces in the snow",
     "tile.browse": "Browse",
 
-    "det.eyebrow": "Made in Montebelluna",
     "det.title": "Quality in the details",
     "det.alt": "Close-up of the MonPiz Grostè boot in green leather, with padded collar, metal hooks and red laces",
     "det.upper": "Upper",

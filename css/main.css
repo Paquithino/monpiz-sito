@@ -571,11 +571,28 @@ body.has-cookie .wa { opacity: 0; pointer-events: none; }
   .wa { right: calc(2rem + env(safe-area-inset-right, 0px)); bottom: calc(2rem + env(safe-area-inset-bottom, 0px)); width: 3.75rem; height: 3.75rem; }
 }
 
-/* schermi da 900 a 1200px: un po' più compatti */
+/* banner cookie su computer: barra sottile in basso, larga tutta la pagina */
 @media (min-width: 56em) {
-  .cookie { left: auto; right: max(1.5rem, env(safe-area-inset-right, 0px)); bottom: 1.5rem; width: min(34rem, calc(100vw - 3rem)); padding: 1.75rem; border: 1px solid var(--rule); }
-  .cookie__actions { grid-template-columns: 1fr 1fr auto; align-items: center; }
-  .cookie__link { grid-column: auto; }
+  .cookie {
+    left: 0; right: 0; bottom: 0; width: auto;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "text actions" "prefs prefs";
+    column-gap: 2.5rem; row-gap: 0.2rem; align-items: center;
+    padding: 1rem calc(var(--side) + 2.5rem) 1rem var(--side);
+    border: 0; border-top: 1px solid var(--rule); box-shadow: 0 -6px 24px rgba(20, 23, 17, 0.10);
+  }
+  .cookie__close { top: 50%; right: calc(var(--side) - 0.75rem); transform: translateY(-50%); }
+  .cookie:has(.cookie__prefs:not([hidden])) .cookie__close { top: 0.75rem; transform: none; }
+  .cookie__title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } /* resta per i lettori di schermo */
+  .cookie__text { grid-area: text; max-width: 62rem; font-size: 0.8125rem; line-height: 1.5; }
+  .cookie__actions { grid-area: actions; display: flex; align-items: center; gap: 0.5rem; }
+  .cookie__actions .btn { min-height: 2.75rem; padding: 0 1.4rem; font-size: 0.75rem; }
+  .cookie__link { grid-column: auto; padding: 0.5rem 0.25rem 0.5rem 0.75rem; }
+  .cookie__prefs {
+    grid-area: prefs; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; align-items: center; gap: 2rem;
+    margin-top: 0.75rem; padding: 0.9rem 0 0.15rem; border-bottom: 0;
+  }
+  .cookie__prefs .btn { justify-self: end; min-height: 2.75rem; padding: 0 1.4rem; font-size: 0.75rem; }
 }
 
 @media (min-width: 56em) and (max-width: 75em) {
