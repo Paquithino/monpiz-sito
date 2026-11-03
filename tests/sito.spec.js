@@ -56,6 +56,28 @@ test.describe("Collegamenti", () => {
     await expect(page.locator("#uomo")).toHaveAttribute("href", "https://lookbook.monpiz.it/#uomo");
   });
 
+  test("in inglese i link portano al lookbook inglese (en.html)", async ({
+      page,
+    }) => {
+      await openHome(page, { lang: "en" });
+      const hrefs = await page
+        .locator('a[href*="lookbook.monpiz.it"]')
+        .evaluateAll((as) => as.map((a) => a.getAttribute("href")));
+      expect(hrefs.length).toBeGreaterThan(3);
+      for (const h of hrefs)
+        expect(h).toMatch(
+          /^https:\/\/lookbook\.monpiz\.it\/en\.html(#[a-z-]+)?$/,
+        );
+      await expect(page.locator("#donna")).toHaveAttribute(
+        "href",
+        "https://lookbook.monpiz.it/en.html#women",
+      );
+      await expect(page.locator("#uomo")).toHaveAttribute(
+        "href",
+        "https://lookbook.monpiz.it/en.html#men",
+      );
+    });
+
   test("nessun link al lookbook ha la freccetta", async ({ page }) => {
     await openHome(page);
     const withArrow = await page.locator('a[href*="lookbook.monpiz.it"]').evaluateAll((as) => as.filter((a) => /↗/.test(a.textContent)).length);

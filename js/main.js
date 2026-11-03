@@ -98,6 +98,26 @@ function initBackToTop() {
   }));
 }
 
+/* ---------- lookbook: versione italiana o inglese ----------
+   Nell'HTML i link puntano al lookbook italiano (es. https://lookbook.monpiz.it/#donna).
+   In inglese diventano https://lookbook.monpiz.it/en.html#women: le sezioni del lookbook
+   inglese si chiamano "women" e "men" (anche i modelli: #donna-cortina → #women-cortina). */
+const LOOKBOOK = "https://lookbook.monpiz.it/";
+const LOOKBOOK_EN = { donna: "women", uomo: "men" };
+
+function lookbookHref(hash = "") {
+  if (getLang() !== "en") return LOOKBOOK + (hash ? "#" + hash : "");
+  const h = hash.replace(/^(donna|uomo)/, (m) => LOOKBOOK_EN[m]);
+  return LOOKBOOK + "en.html" + (h ? "#" + h : "");
+}
+
+function localizeLookbook() {
+  $$('a[href*="lookbook.monpiz.it"]').forEach((a) => {
+    if (!("lbHash" in a.dataset)) a.dataset.lbHash = a.getAttribute("href").split("#")[1] || "";
+    a.setAttribute("href", lookbookHref(a.dataset.lbHash));
+  });
+}
+
 /* ---------- lingua: italiano / inglese ---------- */
 function setLang(lang) {
   applyLang(lang, { n: allStores.length });
@@ -106,6 +126,7 @@ function setLang(lang) {
   renderShops();
   renderSearch();
   renderSizes();
+  localizeLookbook();
 }
 
 function initLang() {
@@ -177,7 +198,7 @@ function initSearch() {
     let html = "";
     if (models.length) {
       html += `<div class="search__group"><h3>${esc(t("search.models"))}</h3>` + models.map((m) =>
-        `<a href="${CONTATTI.lookbook}" target="_blank" rel="noopener"><span>${esc(m.nome)} · ${esc(t("line." + m.linea))}</span><small>${esc(m.materiale)}</small></a>`).join("") + "</div>";
+        `<a href="${lookbookHref()}" target="_blank" rel="noopener"><span>${esc(m.nome)} · ${esc(t("line." + m.linea))}</span><small>${esc(m.materiale)}</small></a>`).join("") + "</div>";
     }
     if (stores.length) {
       html += `<div class="search__group"><h3>${esc(t("search.stores"))}</h3>` + stores.map((s) =>
