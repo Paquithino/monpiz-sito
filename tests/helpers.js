@@ -3,7 +3,7 @@ export const HOME = "/index.html";
 export const WHATSAPP = "https://wa.me/393357604522";
 export const EMAIL = "mailto:monpiz@monpiz.it";
 export const PHONE = "tel:+393357604522";
-export const INSTAGRAM = "https://www.instagram.com/monpiz_/";
+export const INSTAGRAM = "https://www.instagram.com/monpiz_official/";
 
 /** Apre la Home come un visitatore che ha già scelto sui cookie (così il banner non copre la pagina). */
 export async function openHome(page, { lang = "it", consent = true, path = HOME } = {}) {
