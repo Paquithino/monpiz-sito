@@ -112,7 +112,7 @@ export const I18N = {
     "shops.eyebrow": "Acquista online",
     "shops.title": "Shop online",
     "shops.intro":
-      "Acquista online dai nostri rivenditori: torverai già filtrati i modelli attualmente disponibili.",
+      "Acquista online dai nostri rivenditori: troverai già filtrati i modelli attualmente disponibili.",
     "shops.alt":
       "Pedule MonPiz in pelle martellata bianca su un ceppo di legno",
     "shops.in1": "Negozio a ",
