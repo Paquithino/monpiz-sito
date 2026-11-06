@@ -311,6 +311,7 @@ test.describe("Rivenditori", () => {
     await openHome(page);
     const dot = page.locator(".map__dot[data-ids]").first();
     const first = (await dot.getAttribute("data-ids")).split(" ")[0];
+    await page.emulateMedia({ reducedMotion: "reduce" }); // scorrimento immediato: il test non dipende dall'animazione
     await dot.click();
     await expect(page.locator(`#${first}`)).toBeInViewport();
     await expect(page.locator(`#${first}`)).toHaveClass(/is-flash/);

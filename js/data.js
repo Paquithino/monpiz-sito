@@ -352,7 +352,7 @@ export const MODELLI = [
   }
 ];
 
-export const CONTATTI = { email: "monpiz@monpiz.it", telefono: "+39 335 760 4522", whatsapp: "393357604522", instagram: "https://www.instagram.com/monpiz_official/", lookbook: "https://lookbook.monpiz.it/" };
+export const CONTATTI = { email: "monpiz@monpiz.it", telefono: "+39 376 066 9500", whatsapp: "393760669500", instagram: "https://www.instagram.com/monpiz_official/", lookbook: "https://lookbook.monpiz.it/" };
 
 /* Guida alle taglie: lunghezza del piede (cm) per ogni taglia italiana,
    dalla tabella "Taglie & misure" (regolo del cartellino). */

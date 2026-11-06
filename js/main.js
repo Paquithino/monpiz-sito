@@ -240,7 +240,13 @@ function goToStores(ids) {
     li.closest("details").open = true;
     li.classList.add("is-flash");
     setTimeout(() => li.classList.remove("is-flash"), 2400);
-    if (i === 0) li.scrollIntoView({ behavior: still ? "auto" : "smooth", block: "center" });
+        if (i === 0)
+          requestAnimationFrame(() =>
+            li.scrollIntoView({
+              behavior: still ? "auto" : "smooth",
+              block: "center",
+            }),
+          );
   });
 }
 

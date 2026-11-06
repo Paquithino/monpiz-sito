@@ -49,7 +49,7 @@ img/              foto ottimizzate (WebP), loghi, prodotti e dettagli
 
 ## Da verificare
 
-- Il numero WhatsApp usato è +39 335 760 4522 (lo stesso dei contatti): confermare che sia attivo su WhatsApp.
+- Il numero WhatsApp usato è +39 376 066 9500 (lo stesso dei contatti): confermare che sia attivo su WhatsApp.
 - Rivenditori: elenco del lookbook (30 negozi). Mancano Montesport (Andorra) e i tre Pellizzari.
 - I link "Collezione Donna/Uomo" e "I modelli" portano per ora al lookbook: diventeranno pagine del sito.
 
