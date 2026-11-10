@@ -19,6 +19,30 @@ export async function openHome(page, { lang = "it", consent = true, path = HOME 
   await page.waitForFunction(() => document.querySelectorAll(".store").length > 0); // il JS ha disegnato i rivenditori
 }
 
+/** Apre una pagina interna (es. "/donna/") e aspetta che il JS abbia tradotto la pagina e preparato il banner cookie. */
+export async function openPage(page, path, { lang = "it", consent = true } = {}) {
+  await page.addInitScript(({ lang, consent }) => {
+    try {
+      if (consent && !localStorage.getItem("monpiz-consent")) {
+        localStorage.setItem("monpiz-consent", JSON.stringify({ version: 1, date: Date.now(), choices: { statistiche: false, marketing: false } }));
+      }
+      if (lang && !localStorage.getItem("monpiz-lang")) localStorage.setItem("monpiz-lang", lang);
+    } catch {}
+  }, { lang, consent });
+  await page.goto(path);
+  await page.waitForFunction(() => document.documentElement.dataset.consent); // il JS ha finito di preparare la pagina
+}
+
+/** Le pagine interne del sito: indirizzo e titolo principale (h1). */
+export const PAGINE = [
+  { path: "/donna/", h1: "Collezione Donna" },
+  { path: "/uomo/", h1: "Collezione Uomo" },
+  { path: "/lookbook/", h1: "Il lookbook MonPiz" },
+  { path: "/rivenditori/", h1: "Rivenditori MonPiz" },
+  { path: "/shop-online/", h1: "Shop online" },
+  { path: "/guida-taglie/", h1: "Guida alle taglie" },
+];
+
 export const isMobile = (testInfo) => testInfo.project.name === "mobile";
 
 /** Raccoglie gli errori JavaScript della pagina e i file che non si caricano (con il loro indirizzo). */

@@ -27,6 +27,11 @@ perché il JavaScript usa i moduli: serve il server di `npm run dev`.
 
 ```
 index.html               la pagina (Home)
+donna/ uomo/             pagine delle collezioni: un riquadro per modello (foto in img/modelli/)
+lookbook/                presentazione del lookbook, con i link a lookbook.monpiz.it
+rivenditori/             mappa ed elenco dei negozi (disegnati da js/main.js con i dati di js/data.js)
+shop-online/             shop online dei rivenditori
+guida-taglie/            passaggi, calcolo e tabella delle taglie
 cookie-policy.html       informativa cookie (italiano e inglese)
 css/main.css      tutto lo stile: colori e caratteri in cima, poi una sezione per blocco,
                   in fondo le regole per tablet (640px) e computer (1024px)
@@ -46,6 +51,13 @@ img/              foto ottimizzate (WebP), loghi, prodotti e dettagli
 - **Cambiare i modelli del carosello**: `js/data.js`, lista `MODELLI`, più la foto in `img/prodotti/`
   (formato 4:5, per esempio 800 × 1000 px).
 - **Colori e caratteri**: le variabili in cima a `css/main.css`.
+- **Pagine interne** (donna, uomo, lookbook, rivenditori, shop online, guida taglie): servono soprattutto a
+  Google per mostrare i link sotto il risultato "MonPiz". Sono collegate dal footer (e la guida taglie dal
+  menu ☰). Ogni cartella ha il suo `index.html` con header, menu e footer copiati dalla Home: se cambi una
+  voce del menu, del footer o un contatto, cambiala anche lì (in VS Code: Cmd+Shift+H, Sostituisci nei file).
+  I testi delle pagine sono in `js/i18n.js` (chiavi `page.…`, `meta.…` e `model.…`).
+- **Nuova pagina**: aggiungila anche a `sitemap.xml` e alla riga `cp -r …` in `.github/workflows/pubblica.yml`,
+  altrimenti non viene pubblicata.
 
 ## Da verificare
 

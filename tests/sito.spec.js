@@ -78,6 +78,18 @@ test.describe("Collegamenti", () => {
       );
     });
 
+  test("Donna e Uomo (menu in alto, menu ☰, link sopra il video) aprono il lookbook in una nuova scheda", async ({ page }) => {
+    await openHome(page);
+    for (const [line, hash] of [["Donna", "#donna"], ["Uomo", "#uomo"]]) {
+      const links = page.locator(`.hdr__nav a[href$="${hash}"], .hero__links a[href$="${hash}"], .drawer__nav a[href$="${hash}"][data-i18n^="drawer.${line === "Donna" ? "women" : "men"}"]`);
+      await expect(links).toHaveCount(3);
+      for (const a of await links.all()) {
+        await expect(a).toHaveAttribute("href", `https://lookbook.monpiz.it/${hash}`);
+        await expect(a).toHaveAttribute("target", "_blank");
+      }
+    }
+  });
+
   test("nessun link al lookbook ha la freccetta", async ({ page }) => {
     await openHome(page);
     const withArrow = await page.locator('a[href*="lookbook.monpiz.it"]').evaluateAll((as) => as.filter((a) => /↗/.test(a.textContent)).length);
@@ -87,7 +99,7 @@ test.describe("Collegamenti", () => {
   test("il menu in alto porta alle sezioni (computer)", async ({ page }, testInfo) => {
     test.skip(isMobile(testInfo), "sul telefono il menu in alto non c'è");
     await openHome(page);
-    for (const id of ["donna", "uomo", "dettagli", "storia", "rivenditori", "shop-online"]) {
+    for (const id of ["dettagli", "storia", "rivenditori", "shop-online"]) {
       await page.locator(`.hdr__nav a[href="#${id}"]`).click();
       await expect(page.locator(`#${id}`)).toBeInViewport();
     }
@@ -96,7 +108,7 @@ test.describe("Collegamenti", () => {
   test("i collegamenti sopra il video portano alle sezioni (telefono)", async ({ page }, testInfo) => {
     test.skip(!isMobile(testInfo), "solo telefono");
     await openHome(page);
-    for (const id of ["donna", "uomo", "storia", "rivenditori", "shop-online"]) {
+    for (const id of ["storia", "rivenditori", "shop-online"]) {
       await page.evaluate(() => window.scrollTo(0, 0));
       await page.locator(`.hero__links a[href="#${id}"]`).click();
       await expect(page.locator(`#${id}`)).toBeInViewport();
@@ -164,7 +176,7 @@ test.describe("Menu ☰ (telefono)", () => {
 
   test("ogni voce porta alla sezione e chiude il menu", async ({ page }) => {
     await openHome(page);
-    for (const id of ["donna", "uomo", "storia", "rivenditori", "shop-online"]) {
+    for (const id of ["donna", "storia", "rivenditori", "shop-online"]) { // "donna" = voce "Collezioni"
       await page.locator('[data-open="menu"]').click();
       await page.locator(`.drawer__nav a[href="#${id}"]`).last().click();
       await expect(page.locator("#menu")).toBeHidden();

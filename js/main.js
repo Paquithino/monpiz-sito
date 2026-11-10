@@ -18,7 +18,8 @@ const allStores = RIVENDITORI.flatMap((r) => r.negozi.map((n) => ({ ...n, region
 function initHeader() {
   const hdr = $("[data-hdr]");
   const hero = $(".hero__photo");
-  if (!hdr || !hero) return;
+  if (!hdr) return;
+  if (!hero) { hdr.classList.add("is-solid"); return; } // pagine interne: niente foto d'apertura, header sempre chiaro
   const io = new IntersectionObserver(([e]) => {
     hdr.classList.toggle("is-solid", !e.isIntersecting);
     document.body.classList.toggle("at-hero", e.isIntersecting); // il pulsante WhatsApp compare dopo la foto
@@ -201,8 +202,11 @@ function initSearch() {
         `<a href="${lookbookHref()}" target="_blank" rel="noopener"><span>${esc(m.nome)} · ${esc(t("line." + m.linea))}</span><small>${esc(m.materiale)}</small></a>`).join("") + "</div>";
     }
     if (stores.length) {
+      // nelle pagine senza elenco dei rivenditori il link porta alla pagina Rivenditori
+      const here = Boolean($("[data-regions]"));
       html += `<div class="search__group"><h3>${esc(t("search.stores"))}</h3>` + stores.map((s) =>
-        `<a href="#${s.id}" data-goto-store="${s.id}"><span>${esc(s.nome)}</span><small>${esc(s.citta)}</small></a>`).join("") + "</div>";
+        here ? `<a href="#${s.id}" data-goto-store="${s.id}"><span>${esc(s.nome)}</span><small>${esc(s.citta)}</small></a>`
+             : `<a href="/rivenditori/#${s.id}"><span>${esc(s.nome)}</span><small>${esc(s.citta)}</small></a>`).join("") + "</div>";
     }
     out.innerHTML = html || `<p class="search__hint">${esc(t("search.none"))}</p>`;
   };
@@ -359,6 +363,9 @@ document.addEventListener("DOMContentLoaded", () => {
   initSizes();
   setLang(initialLang()); // traduce la pagina e disegna rivenditori, mappa e shop
   initConsent();          // banner cookie al primo accesso
+  // arrivo da un link a un negozio (es. /rivenditori/#negozio-marinotti): apre la regione e lo evidenzia
+  const target = location.hash ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+  if (target?.classList.contains("store")) goToStores([target.id]);
   initReveal();
   const y = $("[data-year]");
   if (y) y.textContent = new Date().getFullYear();
