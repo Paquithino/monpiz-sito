@@ -14,7 +14,7 @@ test.describe("Pagine interne", () => {
       await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", `https://www.monpiz.it${p.path}`);
       await expect(page.locator("[data-hdr]")).toHaveClass(/is-solid/);      // senza foto d'apertura l'header è sempre chiaro
       await expect(page.locator(".crumbs a")).toHaveAttribute("href", "/");  // briciole di pane verso la home
-      if (!isMobile(testInfo) && ["/rivenditori/", "/shop-online/"].includes(p.path)) {
+      if (!isMobile(testInfo) && p.path !== "/guida-taglie/") {
         await expect(page.locator(`.hdr__nav a[href="${p.path}"]`)).toHaveAttribute("aria-current", "page");
       }
       const width = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
@@ -24,12 +24,13 @@ test.describe("Pagine interne", () => {
     });
   }
 
-  test("anche nelle pagine interne Donna, Uomo e Lookbook del menu aprono il lookbook", async ({ page }, testInfo) => {
+  test("nelle pagine interne il menu in alto porta alle pagine e alle sezioni della home", async ({ page }, testInfo) => {
     test.skip(isMobile(testInfo), "sul telefono il menu in alto non c'è");
     await openPage(page, "/rivenditori/");
-    await expect(page.locator(".hdr__nav a", { hasText: "Donna" })).toHaveAttribute("href", "https://lookbook.monpiz.it/#donna");
-    await expect(page.locator(".hdr__nav a", { hasText: "Uomo" })).toHaveAttribute("href", "https://lookbook.monpiz.it/#uomo");
-    await expect(page.locator(".hdr__nav a", { hasText: "Lookbook" })).toHaveAttribute("href", "https://lookbook.monpiz.it/");
+    await expect(page.locator(".hdr__nav a", { hasText: "Donna" })).toHaveAttribute("href", "/donna/");
+    await expect(page.locator(".hdr__nav a", { hasText: "Uomo" })).toHaveAttribute("href", "/uomo/");
+    await expect(page.locator(".hdr__nav a", { hasText: "Lookbook" })).toHaveAttribute("href", "/lookbook/");
+    await expect(page.locator(".hdr__nav a", { hasText: "Storia" })).toHaveAttribute("href", "/#storia");
   });
 
   test("il logo delle pagine interne riporta alla home", async ({ page }) => {

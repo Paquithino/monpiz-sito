@@ -50,7 +50,7 @@ test.describe("Collegamenti", () => {
   test("i link al lookbook sono corretti e le collezioni aprono la sezione giusta", async ({ page }) => {
     await openHome(page);
     const hrefs = await page.locator('a[href*="lookbook.monpiz.it"]').evaluateAll((as) => as.map((a) => a.getAttribute("href")));
-    expect(hrefs.length).toBeGreaterThanOrEqual(4);
+    expect(hrefs.length).toBeGreaterThanOrEqual(3); // pulsante Lookbook sopra il video e le due foto delle collezioni
     for (const h of hrefs) expect(h).toMatch(/^https:\/\/lookbook\.monpiz\.it\/(#[a-z-]+)?$/);
     await expect(page.locator("#donna")).toHaveAttribute("href", "https://lookbook.monpiz.it/#donna");
     await expect(page.locator("#uomo")).toHaveAttribute("href", "https://lookbook.monpiz.it/#uomo");
@@ -63,7 +63,7 @@ test.describe("Collegamenti", () => {
       const hrefs = await page
         .locator('a[href*="lookbook.monpiz.it"]')
         .evaluateAll((as) => as.map((a) => a.getAttribute("href")));
-      expect(hrefs.length).toBeGreaterThan(3);
+      expect(hrefs.length).toBeGreaterThanOrEqual(3);
       for (const h of hrefs)
         expect(h).toMatch(
           /^https:\/\/lookbook\.monpiz\.it\/en\.html(#[a-z-]+)?$/,
@@ -78,15 +78,22 @@ test.describe("Collegamenti", () => {
       );
     });
 
-  test("Donna e Uomo (menu in alto, menu ☰, link sopra il video) aprono il lookbook in una nuova scheda", async ({ page }) => {
+  test("menu in alto, menu ☰ e link sopra il video portano alle pagine; le foto delle collezioni aprono il lookbook", async ({ page }) => {
     await openHome(page);
-    for (const [line, hash] of [["Donna", "#donna"], ["Uomo", "#uomo"]]) {
-      const links = page.locator(`.hdr__nav a[href$="${hash}"], .hero__links a[href$="${hash}"], .drawer__nav a[href$="${hash}"][data-i18n^="drawer.${line === "Donna" ? "women" : "men"}"]`);
-      await expect(links).toHaveCount(3);
-      for (const a of await links.all()) {
-        await expect(a).toHaveAttribute("href", `https://lookbook.monpiz.it/${hash}`);
-        await expect(a).toHaveAttribute("target", "_blank");
-      }
+    const pagine = { "nav.women": "/donna/", "nav.men": "/uomo/", "nav.dealers": "/rivenditori/", "nav.shop": "/shop-online/", "nav.lookbook": "/lookbook/" };
+    for (const [key, href] of Object.entries(pagine)) {
+      await expect(page.locator(`.hdr__nav a[data-i18n="${key}"]`)).toHaveAttribute("href", href);
+    }
+    for (const [key, href] of Object.entries({ "nav.women": "/donna/", "nav.men": "/uomo/", "nav.dealers": "/rivenditori/", "nav.shop": "/shop-online/" })) {
+      await expect(page.locator(`.hero__links a[data-i18n="${key}"]`)).toHaveAttribute("href", href);
+    }
+    for (const [key, href] of Object.entries({ "drawer.women": "/donna/", "drawer.men": "/uomo/", "nav.dealers": "/rivenditori/", "nav.shop": "/shop-online/", "nav.lookbook": "/lookbook/" })) {
+      await expect(page.locator(`.drawer__nav a[data-i18n="${key}"]`)).toHaveAttribute("href", href);
+    }
+    // le due foto "Collezione Donna/Uomo" con il pulsante Sfoglia aprono il lookbook in una nuova scheda
+    for (const id of ["donna", "uomo"]) {
+      await expect(page.locator(`#${id}`)).toHaveAttribute("href", `https://lookbook.monpiz.it/#${id}`);
+      await expect(page.locator(`#${id}`)).toHaveAttribute("target", "_blank");
     }
   });
 
@@ -96,22 +103,32 @@ test.describe("Collegamenti", () => {
     expect(withArrow).toBe(0);
   });
 
-  test("il menu in alto porta alle sezioni (computer)", async ({ page }, testInfo) => {
+  test("il menu in alto porta alle sezioni e alle pagine (computer)", async ({ page }, testInfo) => {
     test.skip(isMobile(testInfo), "sul telefono il menu in alto non c'è");
     await openHome(page);
-    for (const id of ["dettagli", "storia", "rivenditori", "shop-online"]) {
+    for (const id of ["dettagli", "storia"]) {
       await page.locator(`.hdr__nav a[href="#${id}"]`).click();
       await expect(page.locator(`#${id}`)).toBeInViewport();
+    }
+    for (const [href, h1] of [["/donna/", "Collezione Donna"], ["/uomo/", "Collezione Uomo"], ["/rivenditori/", "Rivenditori MonPiz"],
+                              ["/shop-online/", "Shop online"], ["/lookbook/", "Il lookbook MonPiz"]]) {
+      await page.locator(`.hdr__nav a[href="${href}"]`).click();
+      await expect(page).toHaveURL(new RegExp(href + "$"));
+      await expect(page.locator("h1")).toHaveText(h1);
+      await page.goBack();
     }
   });
 
   test("i collegamenti sopra il video portano alle sezioni (telefono)", async ({ page }, testInfo) => {
     test.skip(!isMobile(testInfo), "solo telefono");
     await openHome(page);
-    for (const id of ["storia", "rivenditori", "shop-online"]) {
+    await page.locator('.hero__links a[href="#storia"]').click();
+    await expect(page.locator("#storia")).toBeInViewport();
+    for (const href of ["/donna/", "/uomo/", "/rivenditori/", "/shop-online/"]) {
       await page.evaluate(() => window.scrollTo(0, 0));
-      await page.locator(`.hero__links a[href="#${id}"]`).click();
-      await expect(page.locator(`#${id}`)).toBeInViewport();
+      await page.locator(`.hero__links a[href="${href}"]`).click();
+      await expect(page).toHaveURL(new RegExp(href + "$"));
+      await page.goBack();
     }
   });
 
@@ -176,11 +193,17 @@ test.describe("Menu ☰ (telefono)", () => {
 
   test("ogni voce porta alla sezione e chiude il menu", async ({ page }) => {
     await openHome(page);
-    for (const id of ["donna", "storia", "rivenditori", "shop-online"]) { // "donna" = voce "Collezioni"
+    for (const id of ["donna", "storia"]) { // "donna" = voce "Collezioni"
       await page.locator('[data-open="menu"]').click();
       await page.locator(`.drawer__nav a[href="#${id}"]`).last().click();
       await expect(page.locator("#menu")).toBeHidden();
       await expect(page.locator(`#${id}`)).toBeInViewport();
+    }
+    for (const href of ["/donna/", "/uomo/", "/rivenditori/", "/shop-online/", "/guida-taglie/", "/lookbook/"]) {
+      await page.locator('[data-open="menu"]').click();
+      await page.locator(`.drawer__nav a[href="${href}"]`).click();
+      await expect(page).toHaveURL(new RegExp(href + "$"));
+      await page.goBack();
     }
   });
 });
