@@ -141,41 +141,152 @@
   </div>
 
   <main id="contenuto" class="page" aria-labelledby="page-t">
-    <header class="page-head wrap">
-      <nav class="crumbs" aria-label="Sei qui" data-i18n-attr="aria-label:crumb.label"><a href="/">MonPiz</a><span aria-hidden="true">/</span><span aria-current="page" data-i18n="page.lb.h1">Il lookbook MonPiz</span></nav>
-      <p class="eyebrow" data-i18n="page.lb.eyebrow">Catalogo</p>
-      <h1 class="h2 h2--big page-head__title" id="page-t" data-i18n="page.lb.h1">Il lookbook MonPiz</h1>
-      <p class="lead page-head__lead" data-i18n="page.lb.lead">Tutti i modelli, i colori e i materiali delle collezioni Donna e Uomo in un unico catalogo da sfogliare.</p>
-    </header>
-    <section class="lb wrap" aria-label="Lookbook">
-      <figure class="lb__cover"><img src="/img/lookbook-copertina.webp" alt="Pedula MonPiz Falcade in pelle martellata con doppio laccio" data-i18n-attr="alt:page.lb.alt" width="1600" height="1193"></figure>
-      <div class="lb__actions">
-        <a class="btn btn--solid" href="https://lookbook.monpiz.it/" target="_blank" rel="noopener" data-i18n="page.lb.open">Sfoglia il lookbook</a>
-        <a class="btn" href="https://lookbook.monpiz.it/#donna" target="_blank" rel="noopener" data-i18n="tile.women">Collezione Donna</a>
-        <a class="btn" href="https://lookbook.monpiz.it/#uomo" target="_blank" rel="noopener" data-i18n="tile.men">Collezione Uomo</a>
+    <header class="coll-head">
+      <div class="coll-head__main">
+        <nav class="crumbs" aria-label="Sei qui" data-i18n-attr="aria-label:crumb.label"><a href="/">MonPiz</a><span aria-hidden="true">/</span><span aria-current="page" data-i18n="page.lb.h1">Il lookbook MonPiz</span></nav>
+        <h1 class="coll-head__title" id="page-t" data-i18n="page.lb.h1">Il lookbook MonPiz</h1>
       </div>
+      <div class="coll-head__aside">
+        <p class="eyebrow" data-i18n="page.lb.eyebrow">Catalogo</p>
+        <p class="coll-head__lead" data-i18n="page.lb.lead">Tutti i modelli, i colori e i materiali delle collezioni Donna e Uomo in un unico catalogo da sfogliare.</p>
+        <a class="btn btn--solid lb-open" href="https://lookbook.monpiz.it/" target="_blank" rel="noopener"><span data-i18n="page.lb.open">Sfoglia il lookbook</span> <span aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+    <div class="coll-bar">
+      <nav class="coll-bar__tabs" aria-label="Collezioni" data-i18n-attr="aria-label:aria.collections"><a href="/donna/" data-i18n="nav.women">Donna</a><a href="/uomo/" data-i18n="nav.men">Uomo</a><a href="/lookbook/" aria-current="page" data-i18n="nav.lookbook">Lookbook</a></nav>
+      <span class="coll-bar__count"><span data-i18n="lb.count">2 collezioni · 14 modelli</span></span>
+    </div>
+    <section class="lb-panels" aria-label="Collezioni" data-i18n-attr="aria-label:aria.collections">
+      <ul class="lb-panels__grid">
+        <li class="lb-panel">
+          <a class="lb-panel__link" href="https://lookbook.monpiz.it/#donna" target="_blank" rel="noopener">
+            <span class="lb-panel__media" style="background: linear-gradient(to bottom, #dbdada 50%, #d6d9d4 50%)">
+              <img src="/img/modelli/donna-cortina.webp" alt="Pedula MonPiz Cortina" width="1000" height="700">
+            </span>
+            <span class="lb-panel__info">
+              <span class="lb-panel__name" data-i18n="tile.women">Collezione Donna</span>
+              <span class="coll-card__cta"><span data-i18n="lb.browse">Sfoglia la collezione</span> <span aria-hidden="true">↗</span></span>
+            </span>
+          </a>
+          <a class="lb-panel__site" href="/donna/"><span data-i18n="lb.site">Vedi i modelli sul sito</span> <span aria-hidden="true">→</span></a>
+        </li>
+        <li class="lb-panel">
+          <a class="lb-panel__link" href="https://lookbook.monpiz.it/#uomo" target="_blank" rel="noopener">
+            <span class="lb-panel__media" style="background: linear-gradient(to bottom, #e5e3e4 50%, #e0e3df 50%)">
+              <img src="/img/modelli/uomo-cortina.webp" alt="Pedula MonPiz Cortina" width="1000" height="667">
+            </span>
+            <span class="lb-panel__info">
+              <span class="lb-panel__name" data-i18n="tile.men">Collezione Uomo</span>
+              <span class="coll-card__cta"><span data-i18n="lb.browse">Sfoglia la collezione</span> <span aria-hidden="true">↗</span></span>
+            </span>
+          </a>
+          <a class="lb-panel__site" href="/uomo/"><span data-i18n="lb.site">Vedi i modelli sul sito</span> <span aria-hidden="true">→</span></a>
+        </li>
+      </ul>
     </section>
-    <h2 class="lb__sub wrap" data-i18n="page.lb.collections">Le collezioni sul sito</h2>
-    <!-- ===== COLLEZIONI: portano alle pagine Donna e Uomo ===== -->
-    <section class="tiles" aria-label="Collezioni" data-i18n-attr="aria-label:aria.collections">
-      <a class="tile" href="/donna/">
-        <img src="/img/donna.webp" alt="Mani che allacciano pedule MonPiz grigie con lacci rossi tra le foglie" data-i18n-attr="alt:tile.women.alt" width="1100" height="1649" loading="lazy">
-        <span class="tile__text">
-          <span class="tile__title" data-i18n="tile.women">Collezione Donna</span>
-          <span class="tile__sub" data-i18n="tile.women.sub">Cortina, Falcade, Lagazuoi, Ortisei, Orma, Urban e Anfibio</span>
-          <span class="btn btn--light" data-i18n="tile.browse">Sfoglia</span>
-        </span>
-      </a>
-      <a class="tile" href="/uomo/">
-        <img src="/img/uomo.webp" alt="Pedule MonPiz da uomo con lacci gialli sulla neve" data-i18n-attr="alt:tile.men.alt" width="1100" height="1649" loading="lazy">
-        <span class="tile__text">
-          <span class="tile__title" data-i18n="tile.men">Collezione Uomo</span>
-          <span class="tile__sub" data-i18n="tile.men.sub">Cortina, Falcade, Lussari, Corvara, Lagazuoi, Grostè e City</span>
-          <span class="btn btn--light" data-i18n="tile.browse">Sfoglia</span>
-        </span>
-      </a>
+    <section class="lb-idx" aria-labelledby="lb-idx-t">
+      <h2 class="lb-idx__title" id="lb-idx-t" data-i18n="lb.all">Tutti i modelli</h2>
+      <ul class="lb-idx__grid">
+        <li class="lb-idx__item">
+          <a href="https://lookbook.monpiz.it/#donna-cortina" target="_blank" rel="noopener">
+            <span class="lb-idx__media" style="background: linear-gradient(to bottom, #dbdada 50%, #d6d9d4 50%)"><img src="/img/modelli/donna-cortina.webp" alt="" width="1000" height="700" loading="lazy"></span>
+            <span class="lb-idx__name">Cortina</span>
+            <span class="lb-idx__line" data-i18n="nav.women">Donna</span>
+          </a>
+        </li>
+        <li class="lb-idx__item">
+          <a href="https://lookbook.monpiz.it/#donna-falcade" target="_blank" rel="noopener">
+            <span class="lb-idx__media" style="background: linear-gradient(to bottom, #efecee 50%, #dcdcd7 50%)"><img src="/img/modelli/donna-falcade.webp" alt="" width="1000" height="704" loading="lazy"></span>
+            <span class="lb-idx__name">Falcade</span>
+            <span class="lb-idx__line" data-i18n="nav.women">Donna</span>
+          </a>
+        </li>
+        <li class="lb-idx__item">
+          <a href="https://lookbook.monpiz.it/#donna-lagazuoi" target="_blank" rel="noopener">
+            <span class="lb-idx__media" style="background: linear-gradient(to right, #f5f3f3 50%, #fcfbfc 50%)"><img src="/img/modelli/donna-lagazuoi.webp" alt="" width="1000" height="770" loading="lazy"></span>
+            <span class="lb-idx__name">Lagazuoi</span>
+            <span class="lb-idx__line" data-i18n="nav.women">Donna</span>
+          </a>
+        </li>
+        <li class="lb-idx__item">
+          <a href="https://lookbook.monpiz.it/#donna-ortisei" target="_blank" rel="noopener">
+            <span class="lb-idx__media" style="background: linear-gradient(to bottom, #e7e5e5 50%, #d7d8d3 50%)"><img src="/img/modelli/donna-ortisei.webp" alt="" width="1000" height="720" loading="lazy"></span>
+            <span class="lb-idx__name">Ortisei</span>
+            <span class="lb-idx__line" data-i18n="nav.women">Donna</span>
+          </a>
+        </li>
+        <li class="lb-idx__item">
+          <a href="https://lookbook.monpiz.it/#donna-orma" target="_blank" rel="noopener">
+            <span class="lb-idx__media" style="background: linear-gradient(to right, #c8c5c6 50%, #f1f0f0 50%)"><img src="/img/modelli/donna-orma.webp" alt="" width="900" height="705" loading="lazy"></span>
+            <span class="lb-idx__name">Orma</span>
+            <span class="lb-idx__line" data-i18n="nav.women">Donna</span>
+          </a>
+        </li>
+        <li class="lb-idx__item">
+          <a href="https://lookbook.monpiz.it/#donna-urban" target="_blank" rel="noopener">
+            <span class="lb-idx__media" style="background: linear-gradient(to right, #f9f9f9 50%, #fbfbfb 50%)"><img src="/img/modelli/donna-urban.webp" alt="" width="900" height="725" loading="lazy"></span>
+            <span class="lb-idx__name">Urban</span>
+            <span class="lb-idx__line" data-i18n="nav.women">Donna</span>
+          </a>
+        </li>
+        <li class="lb-idx__item">
+          <a href="https://lookbook.monpiz.it/#donna-anfibio-stringato" target="_blank" rel="noopener">
+            <span class="lb-idx__media" style="background: linear-gradient(to right, #e1e2e3 50%, #fbfdfd 50%)"><img src="/img/modelli/donna-anfibio-stringato.webp" alt="" width="900" height="879" loading="lazy"></span>
+            <span class="lb-idx__name">Anfibio Stringato</span>
+            <span class="lb-idx__line" data-i18n="nav.women">Donna</span>
+          </a>
+        </li>
+        <li class="lb-idx__item">
+          <a href="https://lookbook.monpiz.it/#uomo-cortina" target="_blank" rel="noopener">
+            <span class="lb-idx__media" style="background: linear-gradient(to bottom, #e5e3e4 50%, #e0e3df 50%)"><img src="/img/modelli/uomo-cortina.webp" alt="" width="1000" height="667" loading="lazy"></span>
+            <span class="lb-idx__name">Cortina</span>
+            <span class="lb-idx__line" data-i18n="nav.men">Uomo</span>
+          </a>
+        </li>
+        <li class="lb-idx__item">
+          <a href="https://lookbook.monpiz.it/#uomo-falcade" target="_blank" rel="noopener">
+            <span class="lb-idx__media" style="background: linear-gradient(to right, #d1d0d0 50%, #dad9d7 50%)"><img src="/img/modelli/uomo-falcade.webp" alt="" width="1000" height="820" loading="lazy"></span>
+            <span class="lb-idx__name">Falcade</span>
+            <span class="lb-idx__line" data-i18n="nav.men">Uomo</span>
+          </a>
+        </li>
+        <li class="lb-idx__item">
+          <a href="https://lookbook.monpiz.it/#uomo-lussari" target="_blank" rel="noopener">
+            <span class="lb-idx__media" style="background: linear-gradient(to bottom, #e7e7e7 50%, #e0dfda 50%)"><img src="/img/modelli/uomo-lussari.webp" alt="" width="1000" height="747" loading="lazy"></span>
+            <span class="lb-idx__name">Lussari</span>
+            <span class="lb-idx__line" data-i18n="nav.men">Uomo</span>
+          </a>
+        </li>
+        <li class="lb-idx__item">
+          <a href="https://lookbook.monpiz.it/#uomo-corvara" target="_blank" rel="noopener">
+            <span class="lb-idx__media" style="background: linear-gradient(to bottom, #fdfdfd 50%, #ebece8 50%)"><img src="/img/modelli/uomo-corvara.webp" alt="" width="900" height="598" loading="lazy"></span>
+            <span class="lb-idx__name">Corvara</span>
+            <span class="lb-idx__line" data-i18n="nav.men">Uomo</span>
+          </a>
+        </li>
+        <li class="lb-idx__item">
+          <a href="https://lookbook.monpiz.it/#uomo-lagazuoi" target="_blank" rel="noopener">
+            <span class="lb-idx__media" style="background: linear-gradient(to bottom, #fefefe 50%, #f6f6f0 50%)"><img src="/img/modelli/uomo-lagazuoi.webp" alt="" width="900" height="581" loading="lazy"></span>
+            <span class="lb-idx__name">Lagazuoi</span>
+            <span class="lb-idx__line" data-i18n="nav.men">Uomo</span>
+          </a>
+        </li>
+        <li class="lb-idx__item">
+          <a href="https://lookbook.monpiz.it/#uomo-groste" target="_blank" rel="noopener">
+            <span class="lb-idx__media" style="background: linear-gradient(to right, #e8e7e8 50%, #f1f0f0 50%)"><img src="/img/modelli/uomo-groste.webp" alt="" width="900" height="763" loading="lazy"></span>
+            <span class="lb-idx__name">Grostè</span>
+            <span class="lb-idx__line" data-i18n="nav.men">Uomo</span>
+          </a>
+        </li>
+        <li class="lb-idx__item">
+          <a href="https://lookbook.monpiz.it/#uomo-city" target="_blank" rel="noopener">
+            <span class="lb-idx__media" style="background: linear-gradient(to bottom, #f3f1f0 50%, #ffffff 50%)"><img src="/img/modelli/uomo-city.webp" alt="" width="1000" height="746" loading="lazy"></span>
+            <span class="lb-idx__name">City</span>
+            <span class="lb-idx__line" data-i18n="nav.men">Uomo</span>
+          </a>
+        </li>
+      </ul>
     </section>
-
     <nav class="next wrap" aria-labelledby="next-t">
       <h2 class="next__title" id="next-t" data-i18n="next.title">Continua a scoprire</h2>
       <ul class="next__list">

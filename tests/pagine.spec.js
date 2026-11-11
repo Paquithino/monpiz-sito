@@ -128,11 +128,17 @@ test.describe("Pagine Shop online, Guida taglie e Lookbook", () => {
     await expect(page.locator(".sizes__cell.is-match")).toHaveAttribute("data-size", "41");
   });
 
-  test("Lookbook porta al catalogo e alle pagine delle collezioni", async ({ page }) => {
+  test("Lookbook porta al catalogo, alle collezioni e a ogni modello", async ({ page }) => {
     await openPage(page, "/lookbook/");
-    await expect(page.locator(".lb__actions a").first()).toHaveAttribute("href", "https://lookbook.monpiz.it/");
-    await expect(page.locator('.tiles a[href="/donna/"]')).toHaveCount(1);
-    await expect(page.locator('.tiles a[href="/uomo/"]')).toHaveCount(1);
+    await expect(page.locator(".lb-open")).toHaveAttribute("href", "https://lookbook.monpiz.it/");
+    await expect(page.locator(".lb-panel__link")).toHaveCount(2);
+    await expect(page.locator(".lb-panel__link").first()).toHaveAttribute("href", "https://lookbook.monpiz.it/#donna");
+    await expect(page.locator(".lb-panel__link").last()).toHaveAttribute("href", "https://lookbook.monpiz.it/#uomo");
+    await expect(page.locator('.lb-panel__site[href="/donna/"]')).toHaveCount(1);
+    await expect(page.locator('.lb-panel__site[href="/uomo/"]')).toHaveCount(1);
+    const models = page.locator(".lb-idx__item a");
+    await expect(models).toHaveCount(14);
+    for (const a of await models.all()) await expect(a).toHaveAttribute("href", /^https:\/\/lookbook\.monpiz\.it\/#(donna|uomo)-/);
   });
 });
 
