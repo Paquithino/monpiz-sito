@@ -617,16 +617,40 @@ body.has-cookie .wa { opacity: 0; pointer-events: none; }
 .dealers--page, .shops--page { padding-top: 0.5rem; }
 .help--page .help__text .h2 { font-size: 1.5rem; }
 
-/* collezioni: schede dei modelli (la foto si vede intera, mai tagliata) */
-.models { padding-bottom: var(--section); }
-.models__grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 2.5rem 1.5rem; }
-.model { display: grid; align-content: start; gap: 0.6rem; scroll-margin-top: calc(var(--hdr-h) + 1rem); }
-.model__photo { display: block; background: var(--card); overflow: hidden; }
-.model__photo img { width: 100%; height: auto; transition: transform .6s ease; }
-.model__photo:hover img { transform: scale(1.03); }
-.model__name { margin: 0.4rem 0 0; font: 500 1.5rem/1.1 var(--display); color: var(--ink); }
-.model__desc { margin: 0; color: var(--body); }
-.model .link-all { justify-self: start; }
+/* collezioni Donna e Uomo: impaginazione a catalogo, griglia a tutta larghezza.
+   Ogni foto si vede intera (mai tagliata): le fasce intorno prendono il colore del bordo della foto. */
+.coll-head { display: grid; gap: 1.25rem; padding: 1.75rem var(--gutter) 2rem; }
+.coll-head__title { margin: 0; font: 400 clamp(2.75rem, 11vw, 7.5rem)/0.95 var(--display); letter-spacing: -0.02em; color: var(--ink); }
+.coll-head__aside .eyebrow { margin-bottom: 0.6rem; }
+.coll-head__lead { margin: 0; max-width: 34rem; font-size: 1.05rem; line-height: 1.6; color: var(--body); }
+
+.coll-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem 1.5rem;
+  padding: 0.9rem var(--gutter); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  font: 600 0.75rem/1 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; }
+.coll-bar__tabs { display: flex; gap: 1.5rem; }
+.coll-bar__tabs a { position: relative; padding: 0.35rem 0; color: var(--muted); text-decoration: none; }
+.coll-bar__tabs a[aria-current="page"] { color: var(--ink); }
+.coll-bar__tabs a[aria-current="page"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -0.2rem; height: 1px; background: currentColor; }
+.coll-bar__tabs a:hover { color: var(--ink); }
+.coll-bar__count { display: flex; gap: 1.5rem; align-items: center; color: var(--muted); }
+.coll-bar__count a { color: var(--ink); text-decoration: none; }
+.coll-bar__count a:hover { color: var(--olive); }
+
+.coll { padding-bottom: var(--section); }
+.coll-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 2px; background: var(--paper); }
+.coll-card { display: grid; align-content: start; background: var(--paper); scroll-margin-top: calc(var(--hdr-h) + 1rem); }
+.coll-card__link { display: block; color: inherit; text-decoration: none; }
+.coll-card__media { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; background: var(--card); }
+.coll-card__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transition: transform 0.8s cubic-bezier(.2,.7,.2,1); }
+.coll-card__link:hover .coll-card__img { transform: scale(1.035); }
+.coll-card__num { position: absolute; top: 1rem; left: 1rem; padding: 0.3rem 0.5rem; background: rgba(239, 236, 226, 0.88);
+  font: 600 0.6875rem/1 var(--sans); letter-spacing: 0.14em; color: var(--ink); }
+.coll-card__info { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 1.1rem var(--gutter) 0.35rem; }
+.coll-card__name { font: 400 1.75rem/1.05 var(--display); color: var(--ink); }
+.coll-card__cta { flex: none; font: 600 0.6875rem/1 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+.coll-card__link:hover .coll-card__cta { color: var(--olive); }
+.coll-card__desc { margin: 0 var(--gutter) 2rem; padding: 0; max-width: 34rem; font-size: 0.9rem; line-height: 1.55; color: var(--muted);
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
 /* fascia "Dove trovarle" */
 .where { padding-block: var(--section); background: var(--forest); color: var(--on-dark); }
@@ -649,14 +673,17 @@ body.has-cookie .wa { opacity: 0; pointer-events: none; }
 .next__list a:hover { color: var(--olive); }
 
 @media (min-width: 40em) {
-  .models__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .coll-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .next__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; }
 }
 @media (min-width: 56em) {
-  .page-head, .models, .lb, .lb__sub, .next { max-width: none; padding-left: var(--side); padding-right: var(--side); }
+  .page-head, .lb, .lb__sub, .next { max-width: none; padding-left: var(--side); padding-right: var(--side); }
   .page-head { padding-top: 3rem; padding-bottom: 2.5rem; }
-  .models__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3.5rem 2.5rem; }
-  .model__name { font-size: 1.75rem; }
+  .coll-head { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: end; gap: 3rem; padding: 3rem var(--side) 3rem; }
+  .coll-bar { padding-inline: var(--side); }
+  .coll-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .coll-card__info { padding: 1.25rem 1.5rem 0.4rem; }
+  .coll-card__desc { margin: 0 1.5rem 2.5rem; }
   .where__inner { max-width: none; padding-inline: var(--side); }
   .next__list { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 3rem; }
   .lb__cover img { max-height: calc(100vh - var(--hdr-h) - 6rem); object-fit: contain; object-position: left center; width: auto; max-width: 100%; }

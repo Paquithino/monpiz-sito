@@ -56,14 +56,16 @@ test.describe("Pagine Donna e Uomo", () => {
   for (const [path, linea] of [["/donna/", "donna"], ["/uomo/", "uomo"]]) {
     test(`${path} mostra 7 modelli, ognuno con foto, descrizione e link al lookbook`, async ({ page }) => {
       await openPage(page, path);
-      const models = page.locator(".model");
+      const models = page.locator(".coll-card");
       await expect(models).toHaveCount(7);
       for (const m of await models.all()) {
         const id = await m.getAttribute("id");
         expect(id.startsWith(`${linea}-`)).toBe(true);
-        await expect(m.locator(".model__desc")).not.toBeEmpty();
-        await expect(m.locator(".link-all")).toHaveAttribute("href", `https://lookbook.monpiz.it/#${id}`);
+        await expect(m.locator(".coll-card__desc")).not.toBeEmpty();
+        await expect(m.locator(".coll-card__img")).toHaveAttribute("alt", /^Pedula MonPiz /);
+        await expect(m.locator(".coll-card__link")).toHaveAttribute("href", `https://lookbook.monpiz.it/#${id}`);
       }
+      await expect(page.locator(`.coll-bar__tabs a[href="${path}"]`)).toHaveAttribute("aria-current", "page"); // scheda Donna/Uomo attiva
       await expect(page.locator(".where a").first()).toHaveAttribute("href", "/rivenditori/");
       await expect(page.locator('.where a[href^="https://wa.me/"]')).toHaveAttribute("href", WHATSAPP);
     });
@@ -72,7 +74,8 @@ test.describe("Pagine Donna e Uomo", () => {
   test("in inglese i modelli portano al lookbook inglese e le descrizioni sono tradotte", async ({ page }) => {
     await openPage(page, "/donna/", { lang: "en" });
     await expect(page.locator("h1")).toHaveText("Women's collection");
-    await expect(page.locator("#donna-cortina .link-all")).toHaveAttribute("href", "https://lookbook.monpiz.it/en.html#women-cortina");
+    await expect(page.locator("#donna-cortina .coll-card__link")).toHaveAttribute("href", "https://lookbook.monpiz.it/en.html#women-cortina");
+    await expect(page.locator(".coll-bar__count")).toContainText("7 models");
     await expect(page).toHaveTitle(/women's collection/i);
   });
 });
