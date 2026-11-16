@@ -474,8 +474,20 @@ export function initialLang() {
   try {
     const saved = localStorage.getItem("monpiz-lang");
     if (LANGS.includes(saved)) return saved;
-  } catch { /* archiviazione non disponibile */ }
-  return (navigator.language || "it").toLowerCase().startsWith("it") ? "it" : "en";
+  } catch {
+    /* archiviazione non disponibile */
+  }
+  // Google e gli altri motori leggono sempre la versione italiana (quella dichiarata come principale):
+  // il loro browser è in inglese e altrimenti indicizzerebbero il sito in inglese.
+  if (
+    /bot|crawl|spider|slurp|google|bing|yandex|duckduck|facebookexternalhit/i.test(
+      navigator.userAgent,
+    )
+  )
+    return "it";
+  return (navigator.language || "it").toLowerCase().startsWith("it")
+    ? "it"
+    : "en";
 }
 
 export function getLang() { return current; }
