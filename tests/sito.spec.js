@@ -105,7 +105,7 @@ test.describe("Collegamenti", () => {
 
   test("il menu in alto porta alle sezioni e alle pagine (computer)", async ({ page }, testInfo) => {
     test.skip(isMobile(testInfo), "sul telefono il menu in alto non c'è");
-    test.setTimeout(90_000); // apre 5 pagine una dopo l'altra: sul Mac può servire più tempo
+    test.setTimeout(90_000); // apre più pagine una dopo l'altra: sul Mac può servire più tempo
     await openHome(page);
     for (const id of ["dettagli", "storia"]) {
       await page.locator(`.hdr__nav a[href="#${id}"]`).click();
@@ -122,6 +122,7 @@ test.describe("Collegamenti", () => {
 
   test("i collegamenti sopra il video portano alle sezioni (telefono)", async ({ page }, testInfo) => {
     test.skip(!isMobile(testInfo), "solo telefono");
+    test.setTimeout(90_000); // apre più pagine una dopo l'altra: sul Mac può servire più tempo
     await openHome(page);
     await page.locator('.hero__links a[href="#storia"]').click();
     await expect(page.locator("#storia")).toBeInViewport();
@@ -193,6 +194,7 @@ test.describe("Menu ☰ (telefono)", () => {
   });
 
   test("ogni voce porta alla sezione e chiude il menu", async ({ page }) => {
+    test.setTimeout(90_000); // apre più pagine una dopo l'altra: sul Mac può servire più tempo
     await openHome(page);
     for (const id of ["donna", "storia"]) { // "donna" = voce "Collezioni"
       await page.locator('[data-open="menu"]').click();
