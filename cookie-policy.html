@@ -34,6 +34,24 @@
     .policy .todo { background: #fff3c4; padding: 0 0.25rem; }
     .policy-back { display: inline-block; margin-top: 2rem; }
   </style>
+  <!-- ===== Meta Pixel (Meta Ads) =====
+       Parte SOLO se il visitatore accetta i cookie di marketing (banner cookie, js/consent.js):
+       type="text/plain" + data-consent="marketing" lo tengono fermo finché non c'è il consenso.
+       Il blocco <noscript> del codice originale di Meta è stato tolto apposta: caricherebbe il pixel
+       anche senza consenso, cosa non permessa dalla legge italiana. -->
+  <script type="text/plain" data-consent="marketing">
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1166287482752122');
+  fbq('track', 'PageView');
+  </script>
+  <!-- ===== Fine Meta Pixel ===== -->
 </head>
 <body>
   <header class="policy-top wrap">
@@ -63,21 +81,23 @@
       <p>I cookie sono piccoli file di testo che un sito salva sul tuo dispositivo. Strumenti simili, come il <i>local storage</i> del browser, funzionano allo stesso modo e seguono le stesse regole. Si dividono in <b>tecnici</b>, necessari al funzionamento del sito, che non richiedono il consenso, e <b>di profilazione o analisi</b> non anonima, che si possono usare solo dopo il tuo consenso.</p>
 
       <h2>Strumenti usati da questo sito</h2>
-      <p>Oggi il sito usa <b>solo strumenti tecnici</b>. Non usa cookie di profilazione, di marketing né statistiche che ti identifichino.</p>
+      <p>Il sito usa strumenti <b>tecnici</b>, sempre attivi, e uno strumento di <b>marketing</b> (Meta Pixel), che parte <b>solo se lo accetti</b> dal banner. Non usa statistiche che ti identifichino.</p>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Nome</th><th>Tipo</th><th>A cosa serve</th><th>Durata</th></tr></thead>
           <tbody>
             <tr><td><code>monpiz-lang</code></td><td>Tecnico (local storage)</td><td>Ricorda la lingua scelta, italiano o inglese.</td><td>Finché non lo cancelli dal browser</td></tr>
             <tr><td><code>monpiz-consent</code></td><td>Tecnico (local storage)</td><td>Ricorda la tua scelta sui cookie, così il banner non ricompare a ogni visita.</td><td>6 mesi</td></tr>
+            <tr><td><code>_fbp</code>, <code>_fbc</code></td><td>Marketing (Meta Pixel), <b>solo con il tuo consenso</b></td><td>Misurano l'efficacia delle nostre pubblicità su Facebook e Instagram e ci permettono di mostrarle a chi ha visitato il sito.</td><td>3 mesi</td></tr>
           </tbody>
         </table>
       </div>
-      <p>Se in futuro attiveremo strumenti di statistica o marketing, li aggiungeremo a questa tabella e te li chiederemo con il banner prima di usarli.</p>
+      <p>Se in futuro attiveremo altri strumenti di statistica o marketing, li aggiungeremo a questa tabella e te li chiederemo con il banner prima di usarli.</p>
 
       <h2>Servizi di terze parti</h2>
       <ul>
         <li><b>Google Fonts</b> (Google Ireland Ltd.): fornisce i caratteri tipografici del sito. Per scaricarli il tuo browser si collega ai server di Google, che ricevono il tuo indirizzo IP. Google Fonts non imposta cookie. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy policy di Google</a>.</li>
+        <li><b>Meta Pixel</b> (Meta Platforms Ireland Ltd.): strumento di marketing di Facebook e Instagram. <b>Si attiva solo se accetti i cookie di marketing</b>; in quel caso Meta riceve informazioni sulle pagine visitate e sul tuo browser, anche per mostrarti le nostre pubblicità. I dati possono essere trasferiti negli Stati Uniti nel rispetto del GDPR (EU-US Data Privacy Framework). <a href="https://www.facebook.com/privacy/policy/" target="_blank" rel="noopener">Informativa privacy di Meta</a>.</li>
         <li><b>Collegamenti esterni</b>: i pulsanti verso WhatsApp, Instagram, Google Maps, il lookbook e gli shop online dei rivenditori sono semplici link. Questi servizi entrano in funzione solo quando li apri, e da quel momento valgono le loro informative.</li>
       </ul>
 
@@ -108,21 +128,23 @@
       <p>Cookies are small text files that a website saves on your device. Similar tools, such as the browser's <i>local storage</i>, work the same way and follow the same rules. They fall into <b>technical</b> tools, needed for the site to work, which do not require consent, and <b>profiling or non-anonymous analytics</b> tools, which can only be used after you consent.</p>
 
       <h2>Tools used by this website</h2>
-      <p>Today the site uses <b>technical tools only</b>. It does not use profiling cookies, marketing cookies or statistics that identify you.</p>
+      <p>The site uses <b>technical</b> tools, always active, and one <b>marketing</b> tool (Meta Pixel), which runs <b>only if you accept it</b> in the banner. It does not use statistics that identify you.</p>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Name</th><th>Type</th><th>Purpose</th><th>Duration</th></tr></thead>
           <tbody>
             <tr><td><code>monpiz-lang</code></td><td>Technical (local storage)</td><td>Remembers your chosen language, Italian or English.</td><td>Until you clear it in your browser</td></tr>
             <tr><td><code>monpiz-consent</code></td><td>Technical (local storage)</td><td>Remembers your cookie choice so the banner does not reappear on every visit.</td><td>6 months</td></tr>
+            <tr><td><code>_fbp</code>, <code>_fbc</code></td><td>Marketing (Meta Pixel), <b>only with your consent</b></td><td>Measure the effectiveness of our ads on Facebook and Instagram and let us show them to people who visited the site.</td><td>3 months</td></tr>
           </tbody>
         </table>
       </div>
-      <p>If we add statistics or marketing tools in the future, we will list them here and ask for your consent through the banner before using them.</p>
+      <p>If we add other statistics or marketing tools in the future, we will list them here and ask for your consent through the banner before using them.</p>
 
       <h2>Third-party services</h2>
       <ul>
         <li><b>Google Fonts</b> (Google Ireland Ltd.): provides the site's typefaces. To download them your browser connects to Google's servers, which receive your IP address. Google Fonts does not set cookies. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google privacy policy</a>.</li>
+        <li><b>Meta Pixel</b> (Meta Platforms Ireland Ltd.): Facebook and Instagram marketing tool. <b>It only runs if you accept marketing cookies</b>; in that case Meta receives information about the pages you visit and your browser, also to show you our ads. Data may be transferred to the United States in compliance with the GDPR (EU-US Data Privacy Framework). <a href="https://www.facebook.com/privacy/policy/" target="_blank" rel="noopener">Meta privacy policy</a>.</li>
         <li><b>External links</b>: the buttons to WhatsApp, Instagram, Google Maps, the lookbook and retailers' online shops are plain links. These services only come into play when you open them, and from then on their own policies apply.</li>
       </ul>
 

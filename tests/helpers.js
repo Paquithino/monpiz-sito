@@ -10,7 +10,7 @@ export async function openHome(page, { lang = "it", consent = true, path = HOME 
   await page.addInitScript(({ lang, consent }) => {
     try {
       if (consent && !localStorage.getItem("monpiz-consent")) {
-        localStorage.setItem("monpiz-consent", JSON.stringify({ version: 1, date: Date.now(), choices: { statistiche: false, marketing: false } }));
+        localStorage.setItem("monpiz-consent", JSON.stringify({ version: 2, date: Date.now(), choices: { statistiche: false, marketing: false } }));
       }
       if (lang && !localStorage.getItem("monpiz-lang")) localStorage.setItem("monpiz-lang", lang);
     } catch {}
@@ -24,7 +24,7 @@ export async function openPage(page, path, { lang = "it", consent = true } = {})
   await page.addInitScript(({ lang, consent }) => {
     try {
       if (consent && !localStorage.getItem("monpiz-consent")) {
-        localStorage.setItem("monpiz-consent", JSON.stringify({ version: 1, date: Date.now(), choices: { statistiche: false, marketing: false } }));
+        localStorage.setItem("monpiz-consent", JSON.stringify({ version: 2, date: Date.now(), choices: { statistiche: false, marketing: false } }));
       }
       if (lang && !localStorage.getItem("monpiz-lang")) localStorage.setItem("monpiz-lang", lang);
     } catch {}

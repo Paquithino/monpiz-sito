@@ -53,6 +53,24 @@
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
   <link rel="stylesheet" href="/css/main.css">
   <script type="module" src="/js/main.js"></script>
+  <!-- ===== Meta Pixel (Meta Ads) =====
+       Parte SOLO se il visitatore accetta i cookie di marketing (banner cookie, js/consent.js):
+       type="text/plain" + data-consent="marketing" lo tengono fermo finché non c'è il consenso.
+       Il blocco <noscript> del codice originale di Meta è stato tolto apposta: caricherebbe il pixel
+       anche senza consenso, cosa non permessa dalla legge italiana. -->
+  <script type="text/plain" data-consent="marketing">
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1166287482752122');
+  fbq('track', 'PageView');
+  </script>
+  <!-- ===== Fine Meta Pixel ===== -->
 </head>
 <body data-page="sizes">
   <a class="skip" href="#contenuto" data-i18n="skip">Vai al contenuto</a>

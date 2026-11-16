@@ -105,6 +105,7 @@ test.describe("Collegamenti", () => {
 
   test("il menu in alto porta alle sezioni e alle pagine (computer)", async ({ page }, testInfo) => {
     test.skip(isMobile(testInfo), "sul telefono il menu in alto non c'è");
+    test.setTimeout(90_000); // apre 5 pagine una dopo l'altra: sul Mac può servire più tempo
     await openHome(page);
     for (const id of ["dettagli", "storia"]) {
       await page.locator(`.hdr__nav a[href="#${id}"]`).click();
@@ -458,7 +459,7 @@ test.describe("Cookie (Linee guida Garante Privacy 2021)", () => {
       await expect(page.locator("#cookie")).toBeHidden();
       await expect(page.locator("html")).toHaveAttribute("data-consent", expected);
       const rec = await page.evaluate(() => JSON.parse(localStorage.getItem("monpiz-consent")));
-      expect(rec.version).toBe(1);
+      expect(rec.version).toBe(2);
       expect(Date.now() - rec.date).toBeLessThan(60_000);
       await page.reload();
       await expect(page.locator("#cookie")).toBeHidden();
@@ -478,7 +479,7 @@ test.describe("Cookie (Linee guida Garante Privacy 2021)", () => {
   test("dopo 6 mesi il banner ricompare", async ({ page }) => {
     await page.addInitScript(() => {
       const seven = 1000 * 60 * 60 * 24 * 213;
-      localStorage.setItem("monpiz-consent", JSON.stringify({ version: 1, date: Date.now() - seven, choices: { statistiche: true, marketing: true } }));
+      localStorage.setItem("monpiz-consent", JSON.stringify({ version: 2, date: Date.now() - seven, choices: { statistiche: true, marketing: true } }));
     });
     await openHome(page, { consent: false });
     await expect(page.locator("#cookie")).toBeVisible();
@@ -490,6 +491,22 @@ test.describe("Cookie (Linee guida Garante Privacy 2021)", () => {
     await page.locator(".ftr [data-consent-open]").click();
     await expect(page.locator("#cookie")).toBeVisible();
     await expect(page.locator("[data-consent-prefs]")).toBeVisible();
+  });
+
+  test("Meta Pixel parte solo dopo il consenso ai cookie di marketing", async ({ page }) => {
+    const meta = [];
+    await page.route(/facebook\.(net|com)/, (route) => { meta.push(route.request().url()); route.abort(); }); // nessuna chiamata vera a Meta
+    await openHome(page, { consent: false });
+    await page.waitForTimeout(500);
+    expect(await page.evaluate(() => typeof window.fbq)).toBe("undefined");    // prima del consenso: niente pixel
+    expect(meta).toEqual([]);
+    await page.locator("[data-consent-reject]").click();
+    await page.waitForTimeout(300);
+    expect(await page.evaluate(() => typeof window.fbq)).toBe("undefined");    // rifiutando: niente pixel
+    await page.locator("a[data-consent-open]").click();
+    await page.locator("[data-consent-accept]").click();
+    await expect.poll(() => page.evaluate(() => typeof window.fbq)).toBe("function"); // accettando: il pixel parte
+    await expect.poll(() => meta.some((u) => u.includes("fbevents.js"))).toBe(true);
   });
 
   test("gli script di statistica partono solo dopo il consenso", async ({ page }) => {
