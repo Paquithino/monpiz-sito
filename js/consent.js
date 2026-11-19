@@ -17,7 +17,7 @@
 */
 
 export const CONSENT_KEY = "monpiz-consent";
-export const CONSENT_VERSION = 2;  // 2: aggiunto Meta Pixel (marketing)                       // aumentarlo quando cambiano i servizi: il banner ricompare
+export const CONSENT_VERSION = 3;  // 2: Meta Pixel (marketing) · 3: Google Analytics (statistiche)
 export const CONSENT_MAX_AGE = 1000 * 60 * 60 * 24 * 182; // circa 6 mesi
 export const CATEGORIES = ["statistiche", "marketing"];
 

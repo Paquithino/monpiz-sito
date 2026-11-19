@@ -461,7 +461,7 @@ test.describe("Cookie (Linee guida Garante Privacy 2021)", () => {
       await expect(page.locator("#cookie")).toBeHidden();
       await expect(page.locator("html")).toHaveAttribute("data-consent", expected);
       const rec = await page.evaluate(() => JSON.parse(localStorage.getItem("monpiz-consent")));
-      expect(rec.version).toBe(2);
+      expect(rec.version).toBe(3);
       expect(Date.now() - rec.date).toBeLessThan(60_000);
       await page.reload();
       await expect(page.locator("#cookie")).toBeHidden();
@@ -481,7 +481,7 @@ test.describe("Cookie (Linee guida Garante Privacy 2021)", () => {
   test("dopo 6 mesi il banner ricompare", async ({ page }) => {
     await page.addInitScript(() => {
       const seven = 1000 * 60 * 60 * 24 * 213;
-      localStorage.setItem("monpiz-consent", JSON.stringify({ version: 2, date: Date.now() - seven, choices: { statistiche: true, marketing: true } }));
+      localStorage.setItem("monpiz-consent", JSON.stringify({ version: 3, date: Date.now() - seven, choices: { statistiche: true, marketing: true } }));
     });
     await openHome(page, { consent: false });
     await expect(page.locator("#cookie")).toBeVisible();
@@ -493,6 +493,24 @@ test.describe("Cookie (Linee guida Garante Privacy 2021)", () => {
     await page.locator(".ftr [data-consent-open]").click();
     await expect(page.locator("#cookie")).toBeVisible();
     await expect(page.locator("[data-consent-prefs]")).toBeVisible();
+  });
+
+  test("Google Analytics parte solo dopo il consenso ai cookie di statistica", async ({ page }) => {
+    const ga = [];
+    await page.route(/googletagmanager\.com|google-analytics\.com/, (route) => { ga.push(route.request().url()); route.abort(); });
+    await openHome(page, { consent: false });
+    await page.waitForTimeout(500);
+    expect(await page.evaluate(() => typeof window.gtag)).toBe("undefined");   // prima del consenso: niente Analytics
+    await page.locator("[data-consent-customize]").click();
+    await page.locator("#ck-marketing").check();                              // solo marketing: Analytics resta spento
+    await page.locator("[data-consent-save]").click();
+    await page.waitForTimeout(300);
+    expect(await page.evaluate(() => typeof window.gtag)).toBe("undefined");
+    expect(ga).toEqual([]);
+    await page.locator("a[data-consent-open]").click();
+    await page.locator("[data-consent-accept]").click();
+    await expect.poll(() => page.evaluate(() => typeof window.gtag)).toBe("function");
+    await expect.poll(() => ga.some((u) => u.includes("G-NKKXM2D3HE"))).toBe(true);
   });
 
   test("Meta Pixel parte solo dopo il consenso ai cookie di marketing", async ({ page }) => {
