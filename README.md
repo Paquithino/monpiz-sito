@@ -39,6 +39,7 @@ js/main.js        menu, ricerca, lingua, carosello, mappa e rivenditori, shop on
 js/data.js        i dati: rivenditori, mappa, modelli in evidenza, contatti
 js/i18n.js        tutti i testi in italiano e inglese
 js/consent.js     banner e consenso cookie (Linee guida Garante Privacy 2021)
+js/track.js       registra i clic verso shop online, rivenditori, WhatsApp/email e lookbook (solo con consenso)
 video/            video di apertura (verticale per telefono, orizzontale per computer)
 tests/            test automatici (Playwright)
 img/              foto ottimizzate (WebP), loghi, prodotti e dettagli

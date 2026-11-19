@@ -6,6 +6,7 @@
 import { RIVENDITORI, MAPPA, MODELLI, CONTATTI, TAGLIE, MARGINE_CM } from "./data.js";
 import { applyLang, initialLang, getLang, t } from "./i18n.js";
 import { initConsent } from "./consent.js";
+import { initTracking } from "./track.js";
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -363,6 +364,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initSizes();
   setLang(initialLang()); // traduce la pagina e disegna rivenditori, mappa e shop
   initConsent();          // banner cookie al primo accesso
+  initTracking();         // registra i clic verso shop, rivenditori e contatti (solo con il consenso)
   // arrivo da un link a un negozio (es. /rivenditori/#negozio-marinotti): apre la regione e lo evidenzia
   const target = location.hash ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
   if (target?.classList.contains("store")) goToStores([target.id]);
